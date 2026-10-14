@@ -1,0 +1,29 @@
+% Standalone preview of toy_frames.tex with a look close to docs/presentation_ppt.pdf.
+% Build: latexmk -pdf preview.tex
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[sfdefault,light]{FiraSans}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{colortbl}
+
+\definecolor{piiaccent}{HTML}{C80150}
+\definecolor{piitext}{HTML}{1F1F24}
+\definecolor{piimuted}{HTML}{7A7E85}
+
+\setbeamersize{text margin left=1.2cm, text margin right=1.2cm}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{normal text}{fg=piitext}
+\setbeamercolor{frametitle}{fg=piitext}
+\setbeamertemplate{frametitle}{%
+  \vspace*{1.3em}{\Large\bfseries\insertframetitle}\par
+  \vspace{-0.2em}{\color{piiaccent}\rule{2.3em}{1.2pt}}\par\vspace{0.4em}}
+\setbeamertemplate{footline}{%
+  \hspace*{1.2cm}{\footnotesize\color{piimuted}PII Filter\quad|\quad CSED490E Project Proposal
+  \hfill\insertframenumber\,/\,20}\hspace*{1.2cm}\par\vspace{1.4em}}
+
+\begin{document}
+\setcounter{framenumber}{12}  % the Toy Experiment slide is 13 / 18 in the deck
+\input{toy_frames}
+\end{document}

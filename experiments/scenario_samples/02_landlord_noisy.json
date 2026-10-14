@@ -1,0 +1,10 @@
+{
+  "id": "landlord_noisy",
+  "title": "Example 2 (noisy)",
+  "prompt": "write a short message to my landlord im minji park from 41 maple stret and my heater is broken he can call me at 010 2345 6789",
+  "gold": [
+    {"label": "NAME", "value": "minji park"},
+    {"label": "ADDRESS", "value": "41 maple stret"},
+    {"label": "PHONE", "value": "010 2345 6789"}
+  ]
+}

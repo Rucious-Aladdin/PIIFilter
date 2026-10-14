@@ -1,0 +1,158 @@
+{
+  "meta": {
+    "date": "2026-10-14T09:03:59+00:00",
+    "samples": "/home/blue2959/PIIFilter/experiments/scenario_samples",
+    "detector": {
+      "model": "urchade/gliner_multi_pii-v1",
+      "threshold": 0.5
+    },
+    "llm": {
+      "backend": "local",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "system_prompt": "Some personal details in the user's message have been replaced with placeholders such as <NAME_1> or <PHONE_1>. Treat each placeholder as the real value: wherever that detail belongs in your answer, copy the placeholder exactly as written, including the angle brackets."
+    },
+    "packages": {
+      "gliner": "0.2.29",
+      "torch": "2.14.1",
+      "transformers": "5.16.1",
+      "openai": "3.31.0",
+      "anthropic": "1.13.0"
+    }
+  },
+  "examples": [
+    {
+      "id": "landlord_clean",
+      "title": "Example 1 (clean)",
+      "prompt": "Write a short message to my landlord. I'm Minji Park from 41 Maple Street, and my heater is broken. He can call me at 010-2345-6789.",
+      "spans": [
+        {
+          "start": 42,
+          "end": 52,
+          "label": "NAME",
+          "score": 0.999
+        },
+        {
+          "start": 58,
+          "end": 73,
+          "label": "ADDRESS",
+          "score": 0.969
+        },
+        {
+          "start": 118,
+          "end": 131,
+          "label": "PHONE",
+          "score": 1.0
+        }
+      ],
+      "masked_prompt": "Write a short message to my landlord. I'm <NAME_1> from <ADDRESS_1>, and my heater is broken. He can call me at <PHONE_1>.",
+      "mapping": {
+        "<NAME_1>": "Minji Park",
+        "<ADDRESS_1>": "41 Maple Street",
+        "<PHONE_1>": "010-2345-6789"
+      },
+      "masked_answer": "Subject: Heater Issue\n\nDear Landlord,\n\nI hope this message finds you well. My name is <NAME_1> and I live at <ADDRESS_1>. Unfortunately, I am experiencing issues with my heater and was wondering if you could assist me in getting it repaired. Please feel free to call me at <PHONE_1> at your earliest convenience to discuss further.\n\nThank you for your help!\n\nBest regards,\n<NAME_1",
+      "answer": "Subject: Heater Issue\n\nDear Landlord,\n\nI hope this message finds you well. My name is Minji Park and I live at 41 Maple Street. Unfortunately, I am experiencing issues with my heater and was wondering if you could assist me in getting it repaired. Please feel free to call me at 010-2345-6789 at your earliest convenience to discuss further.\n\nThank you for your help!\n\nBest regards,\n<NAME_1",
+      "checks": {
+        "gold": [
+          {
+            "label": "NAME",
+            "value": "Minji Park",
+            "start": 42,
+            "end": 52,
+            "status": "exact"
+          },
+          {
+            "label": "ADDRESS",
+            "value": "41 Maple Street",
+            "start": 58,
+            "end": 73,
+            "status": "exact"
+          },
+          {
+            "label": "PHONE",
+            "value": "010-2345-6789",
+            "start": 118,
+            "end": 131,
+            "status": "exact"
+          }
+        ],
+        "extra_detections": [],
+        "leaked_values": [],
+        "placeholders_missing_from_answer": [],
+        "leftover_placeholders": [
+          "NAME_1"
+        ],
+        "private": true,
+        "enough_context": true,
+        "usable_answer": false
+      }
+    },
+    {
+      "id": "landlord_noisy",
+      "title": "Example 2 (noisy)",
+      "prompt": "write a short message to my landlord im minji park from 41 maple stret and my heater is broken he can call me at 010 2345 6789",
+      "spans": [
+        {
+          "start": 40,
+          "end": 50,
+          "label": "NAME",
+          "score": 0.686
+        },
+        {
+          "start": 56,
+          "end": 70,
+          "label": "ADDRESS",
+          "score": 0.921
+        },
+        {
+          "start": 113,
+          "end": 126,
+          "label": "PHONE",
+          "score": 0.985
+        }
+      ],
+      "masked_prompt": "write a short message to my landlord im <NAME_1> from <ADDRESS_1> and my heater is broken he can call me at <PHONE_1>",
+      "mapping": {
+        "<NAME_1>": "minji park",
+        "<ADDRESS_1>": "41 maple stret",
+        "<PHONE_1>": "010 2345 6789"
+      },
+      "masked_answer": "Subject: Heater Needs Repair\n\nHi [Landlord's Name],\n\nThis is <NAME_1> from <ADDRESS_1>, and I hope this message finds you well. Unfortunately, the heater in my apartment is not working properly, and I was wondering if you could arrange for a repair service at your earliest convenience. I can be reached at <PHONE_1> if you need to discuss this further.\n\nThank you for your assistance!\n\nBest regards,\n<NAME_1",
+      "answer": "Subject: Heater Needs Repair\n\nHi [Landlord's Name],\n\nThis is minji park from 41 maple stret, and I hope this message finds you well. Unfortunately, the heater in my apartment is not working properly, and I was wondering if you could arrange for a repair service at your earliest convenience. I can be reached at 010 2345 6789 if you need to discuss this further.\n\nThank you for your assistance!\n\nBest regards,\n<NAME_1",
+      "checks": {
+        "gold": [
+          {
+            "label": "NAME",
+            "value": "minji park",
+            "start": 40,
+            "end": 50,
+            "status": "exact"
+          },
+          {
+            "label": "ADDRESS",
+            "value": "41 maple stret",
+            "start": 56,
+            "end": 70,
+            "status": "exact"
+          },
+          {
+            "label": "PHONE",
+            "value": "010 2345 6789",
+            "start": 113,
+            "end": 126,
+            "status": "exact"
+          }
+        ],
+        "extra_detections": [],
+        "leaked_values": [],
+        "placeholders_missing_from_answer": [],
+        "leftover_placeholders": [
+          "NAME_1"
+        ],
+        "private": true,
+        "enough_context": true,
+        "usable_answer": false
+      }
+    }
+  ]
+}

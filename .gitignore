@@ -1,0 +1,17 @@
+.env
+
+# Python / uv
+.venv/
+__pycache__/
+*.pyc
+
+# LaTeX build files (preview.pdf is kept)
+slides/**/*.aux
+slides/**/*.fdb_latexmk
+slides/**/*.fls
+slides/**/*.log
+slides/**/*.nav
+slides/**/*.out
+slides/**/*.snm
+slides/**/*.toc
+slides/**/*.vrb
