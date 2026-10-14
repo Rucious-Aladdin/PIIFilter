@@ -1,7 +1,7 @@
 % Toy Experiment frames for docs/presentation_ppt.pdf (replace the empty "Toy Experiment" slide).
 % Insert with \input{toy_frames} inside the document body.
 % Preamble needs: \usepackage[T1]{fontenc}, tikz, tcolorbox, booktabs, colortbl.
-% Numbers and quoted text come from results/toy/local/toy_results.md.
+% Numbers and quoted text come from results/toy/openai/toy_results.md.
 
 % Deck colors (sampled from presentation_ppt.pdf).
 \providecolor{piiaccent}{HTML}{C80150}
@@ -22,12 +22,12 @@
   \centering
   \begin{tikzpicture}[
       box/.style={draw=piirule, line width=0.6pt, rounded corners=2pt, fill=white,
-                  minimum height=2.6em, text width=6em, align=center, font=\footnotesize},
+                  minimum height=2.6em, text width=6.6em, align=center, font=\footnotesize},
       arr/.style={->, draw=piiaccent, line width=0.7pt}]
     \node[box] (det) at (0,0)    {GLiNER\\[-1pt]\piiNote{cut-off 0.5}};
-    \node[box] (msk) at (2.55,0) {Mask\\[-1pt]\piiNote{numbered placeholders}};
-    \node[box, fill=piicloud, draw=piicloud, text width=8.8em] (llm) at (5.45,0) {Qwen2.5-7B-Instruct\\[-1pt]\piiNote{stands in for the cloud LLM}};
-    \node[box] (unm) at (8.35,0) {Unmask\\[-1pt]\piiNote{simple replacement}};
+    \node[box] (msk) at (2.75,0) {Mask\\[-1pt]\piiNote{numbered placeholders}};
+    \node[box, fill=piicloud, draw=piicloud] (llm) at (5.5,0) {GPT-5.5\\[-1pt]\piiNote{cloud, OpenAI API}};
+    \node[box] (unm) at (8.25,0) {Unmask\\[-1pt]\piiNote{simple replacement}};
     \draw[arr] (det) -- (msk);
     \draw[arr] (msk) -- (llm);
     \draw[arr] (llm) -- (unm);
@@ -54,7 +54,7 @@
 
   \vfill
   \raggedright\piiNote{Highlight = span GLiNER masked; number = its confidence.
-  Detector: urchade/gliner\_multi\_pii-v1. LLM: Qwen/Qwen2.5-7B-Instruct, run locally with greedy decoding.}
+  Detector: urchade/gliner\_multi\_pii-v1. LLM: gpt-5.5 through the OpenAI Responses API.}
 \end{frame}
 
 % ---------------------------------------------------------------------------
@@ -74,24 +74,20 @@
         Write a short message to my landlord. I'm \piiPH{NAME\_1} from \piiPH{ADDRESS\_1},
         and my heater is broken. He can call me at \piiPH{PHONE\_1}. \tabularnewline\noalign{\vskip 0.6em}
       \piiTag{LLM answers} & \raggedright
-        Dear Landlord, \ldots\ My name is \piiPH{NAME\_1} and I live at \piiPH{ADDRESS\_1}.
-        \ldots\ call me at \piiPH{PHONE\_1} \ldots\
-        Best regards, \textcolor{piiaccent}{\texttt{<NAME\_1}}\,%
-        \textcolor{piiaccent}{\scriptsize\textbf{\(\leftarrow\) no ``>''}}
+        Hi, this is \piiPH{NAME\_1} from \piiPH{ADDRESS\_1}. My heater is broken and needs
+        repair. Please call me at \piiPH{PHONE\_1} when you can. Thank you.
     \end{tabular}
   \end{tcolorbox}
 
   \vspace{0.5em}
   \begin{tabular}{@{}r@{\hspace{1em}}p{0.8\textwidth}@{}}
     \piiTag{You read} & \raggedright
-      Dear Landlord, \ldots\ My name is \piiHL{Minji Park} and I live at \piiHL{41 Maple Street}.
-      \ldots\ call me at \piiHL{010-2345-6789} \ldots\
-      Best regards, \textcolor{piiaccent}{\texttt{<NAME\_1}}\,%
-      \textcolor{piiaccent}{\scriptsize\textbf{\(\leftarrow\) not restored}}
+      Hi, this is \piiHL{Minji Park} from \piiHL{41 Maple Street}. My heater is broken and needs
+      repair. Please call me at \piiHL{010-2345-6789} when you can. Thank you.
   \end{tabular}
 
   \vfill
-  \piiNote{``\ldots'' marks text cut for the slide; the full answer is in results/toy/local/toy\_results.md.}
+  \piiNote{Answers are shown in full, as returned by gpt-5.5.}
 \end{frame}
 
 % ---------------------------------------------------------------------------
@@ -108,18 +104,18 @@
       \textcolor{piiaccent}{\textbf{Yes}}\enspace all 3 placeholders used &
       \textcolor{piiaccent}{\textbf{Yes}}\enspace all 3 placeholders used \\
     \piiTag{Usable answer?} &
-      \textbf{No}\enspace sign-off left as \texttt{<NAME\_1} &
-      \textbf{No}\enspace same, and the typos come back (``41 maple stret'') \\
+      \textcolor{piiaccent}{\textbf{Yes}}\enspace all 3 values restored &
+      \textcolor{piiaccent}{\textbf{Yes}}\enspace all 3 values restored \\
     \arrayrulecolor{piirule}\bottomrule
   \end{tabular}
 
   \vspace{0.6em}
   \begin{itemize}\setlength{\itemsep}{0.35em}
-    \item[\textcolor{piiaccent}{\textbullet}] \textbf{The loop works:} the LLM wrote a usable message
-      without seeing any real value.
-    \item[\textcolor{piiaccent}{\textbullet}] \textbf{Unmasking is the weak step:} the LLM dropped the
-      closing ``>'' of its last placeholder, which simple replacement cannot restore.
+    \item[\textcolor{piiaccent}{\textbullet}] \textbf{The loop works:} GPT-5.5 wrote the message without
+      seeing any real value, and every placeholder was restored. Same result in 3 runs.
     \item[\textcolor{piiaccent}{\textbullet}] \textbf{RQ2 hint:} typing the name in lowercase cut its
       confidence from 0.999 to 0.686; nothing leaked, but close to the cut-off.
+    \item[\textcolor{piiaccent}{\textbullet}] \textbf{The noise comes back:} unmasking restores what the
+      user typed, so the noisy answer reads ``this is minji park from 41 maple stret''.
   \end{itemize}
 \end{frame}

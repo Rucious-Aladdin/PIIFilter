@@ -42,7 +42,7 @@ class LocalLLM:
 
 
 class OpenAILLM:
-    default_model = "gpt-5-mini"
+    default_model = "gpt-5.5"
 
     def __init__(self, model: str | None = None):
         from openai import OpenAI

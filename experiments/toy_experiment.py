@@ -6,9 +6,9 @@ three checks of Section 5.3. "Private?" is decided automatically from the gold s
 "Enough context?" and "Usable answer?" are automatic proxies that we confirm by reading
 the answers.
 
-    uv run python experiments/toy_experiment.py --backend local
-    uv run python experiments/toy_experiment.py --backend openai --model gpt-5-mini
-    uv run python experiments/toy_experiment.py --backend anthropic --model claude-opus-5-5
+    uv run python experiments/toy_experiment.py                      # openai, gpt-5.5
+    uv run python experiments/toy_experiment.py --backend anthropic  # claude-opus-5-5
+    uv run python experiments/toy_experiment.py --backend local      # Qwen2.5-7B-Instruct
 """
 
 import argparse
@@ -138,7 +138,7 @@ def to_markdown(meta: dict, rows: list[dict]) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--backend", choices=["local", "openai", "anthropic"], default="local")
+    parser.add_argument("--backend", choices=["local", "openai", "anthropic"], default="openai")
     parser.add_argument("--model", help="LLM model id (default depends on the backend)")
     parser.add_argument("--threshold", type=float, default=0.5, help="GLiNER confidence cut-off")
     parser.add_argument("--device", default="cuda")
