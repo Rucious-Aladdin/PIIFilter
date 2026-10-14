@@ -22,9 +22,9 @@
   \centering
   \begin{tikzpicture}[
       box/.style={draw=piirule, line width=0.6pt, rounded corners=2pt, fill=white,
-                  minimum height=2.6em, text width=6.6em, align=center, font=\footnotesize},
+                  minimum height=2.2em, text width=6.6em, align=center, font=\footnotesize},
       arr/.style={->, draw=piiaccent, line width=0.7pt}]
-    \node[box] (det) at (0,0)    {GLiNER\\[-1pt]\piiNote{cut-off 0.5}};
+    \node[box] (det) at (0,0)    {GLiNER\\[-1pt]\piiNote{masks spans scoring $\geq$ 0.5}};
     \node[box] (msk) at (2.75,0) {Mask\\[-1pt]\piiNote{numbered placeholders}};
     \node[box, fill=piicloud, draw=piicloud] (llm) at (5.5,0) {GPT-5.5\\[-1pt]\piiNote{cloud, OpenAI API}};
     \node[box] (unm) at (8.25,0) {Unmask\\[-1pt]\piiNote{simple replacement}};
@@ -33,28 +33,41 @@
     \draw[arr] (llm) -- (unm);
   \end{tikzpicture}
 
-  \vspace{1.1em}
+  \vspace{0.6em}
   \raggedright\small
   \begin{tabular}{@{}r@{\hspace{1em}}p{0.82\textwidth}@{}}
     \piiTag{Clean} & \raggedright
-      Write a short message to my landlord. I'm \piiHL{Minji Park}\piiScore{0.999} from
-      \piiHL{41 Maple Street}\piiScore{0.969}, and my heater is broken. He can call me at
-      \piiHL{010-2345-6789}\piiScore{1.000}. \tabularnewline\noalign{\vskip 0.6em}
+      Write a short message to my landlord. I'm \piiHL{Minji Park} from \piiHL{41 Maple Street},
+      and my heater is broken. He can call me at \piiHL{010-2345-6789}. \tabularnewline\noalign{\vskip 0.4em}
     \piiTag{Noisy} & \raggedright
-      write a short message to my landlord im \piiHL{minji park}\piiScore{0.686} from
-      \piiHL{41 maple stret}\piiScore{0.921} and my heater is broken he can call me at
-      \piiHL{010 2345 6789}\piiScore{0.985} \tabularnewline
+      write a short message to my landlord im \piiHL{minji park} from \piiHL{41 maple stret}
+      and my heater is broken he can call me at \piiHL{010 2345 6789} \tabularnewline
   \end{tabular}
 
-  \vspace{1.0em}
-  \centering
-  {\small\textcolor{piimuted}{GLiNER masks all three values in both prompts, but the lowercase name
-  drops from \textcolor{piiaccent}{0.999} to \textcolor{piiaccent}{0.686},
-  close to the 0.5 cut-off.}}
+  \vspace{0.6em}
+  \begin{minipage}[t]{0.42\textwidth}
+    \footnotesize
+    \textbf{GLiNER confidence of each masked span}\par\vspace{2pt}
+    \begin{tabular}[t]{@{}l@{\hspace{2.2em}}c@{\hspace{2.2em}}c@{}}
+      & Clean & Noisy \\
+      \arrayrulecolor{piirule}\midrule
+      \piiTag{Name}    & 0.999 & \textcolor{piiaccent}{\textbf{0.686}} \\
+      \piiTag{Address} & 0.969 & 0.921 \\
+      \piiTag{Phone}   & 1.000 & 0.985 \\
+    \end{tabular}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.54\textwidth}
+    \footnotesize\raggedright
+    \textbf{Confidence}\textcolor{piimuted}{: GLiNER's score from 0 to 1 that a highlighted span
+    is the PII type it predicts. Spans scoring at least 0.5, the library's default cut-off,
+    are masked.}\par\vspace{0.4em}
+    \textcolor{piimuted}{All three values are masked in both prompts, but the lowercase name
+    falls to} \textcolor{piiaccent}{0.686}\textcolor{piimuted}{, close to the cut-off.}
+  \end{minipage}
 
   \vfill
-  \raggedright\piiNote{Highlight = span GLiNER masked; number = its confidence.
-  Detector: urchade/gliner\_multi\_pii-v1. LLM: gpt-5.5 through the OpenAI Responses API.}
+  \piiNote{Scores: output of urchade/gliner\_multi\_pii-v1 on these two prompts
+  (results/toy/openai/toy\_results.md).}
 \end{frame}
 
 % ---------------------------------------------------------------------------
