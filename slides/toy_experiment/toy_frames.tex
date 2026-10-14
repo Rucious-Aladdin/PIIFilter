@@ -126,9 +126,10 @@
   \begin{itemize}\setlength{\itemsep}{0.35em}
     \item[\textcolor{piiaccent}{\textbullet}] \textbf{The loop works:} GPT-5.5 wrote the message without
       seeing any real value, and every placeholder was restored. Same result in 3 runs.
-    \item[\textcolor{piiaccent}{\textbullet}] \textbf{RQ2 hint:} typing the name in lowercase cut its
-      confidence from 0.999 to 0.686; nothing leaked, but close to the cut-off.
     \item[\textcolor{piiaccent}{\textbullet}] \textbf{The noise comes back:} unmasking restores what the
       user typed, so the noisy answer reads ``this is minji park from 41 maple stret''.
+    \item[\textcolor{piiaccent}{\textbullet}] \textbf{RQ2 needs the benchmark:} noise caused no leak here,
+      but the lowercase name's confidence fell from 0.999 to 0.686. One prompt cannot show how
+      often scores fall below the 0.5 cut-off; the benchmark will measure it.
   \end{itemize}
 \end{frame}

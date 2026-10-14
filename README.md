@@ -142,7 +142,8 @@ Answer shown to the user (clean): *Hi, this is Minji Park from 41 Maple Street. 
 broken and needs repair. Please call me at 010-2345-6789 when you can. Thank you.*
 
 - GLiNER masked all three values in both prompts, so nothing leaked. On the noisy prompt
-  the lowercase name's confidence fell from 0.999 to 0.686, close to the 0.5 cut-off.
+  the lowercase name's confidence fell from 0.999 to 0.686, closer to the 0.5 cut-off. One
+  prompt cannot show how often scores fall below the cut-off; the RQ2 benchmark measures it.
 - GPT-5.5 used every placeholder and all of them were restored. Two more runs (not saved)
   gave the same checks with slightly different wording.
 - Unmasking restores what the user typed, so the noisy answer reads "this is minji park
