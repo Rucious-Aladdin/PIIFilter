@@ -1,0 +1,40 @@
+{
+  "computer": {
+    "machine": "x86_64",
+    "system": "Linux",
+    "cpu_count": 8,
+    "torch_threads": 4,
+    "gpu": null
+  },
+  "examples_timed": 100,
+  "seconds_per_example": {
+    "presidio": {
+      "ai4privacy": 0.0007725433000086924,
+      "nemotron": 0.001831669500006683,
+      "gretel": 0.0035689428000114276
+    },
+    "bert": {
+      "ai4privacy": 0.008527452650014311,
+      "nemotron": 0.03386157322000145,
+      "gretel": 0.05572556613000415
+    },
+    "gliner": {
+      "ai4privacy": 0.11113931386000331,
+      "nemotron": 0.44308265659001334,
+      "gretel": 0.9866998944899933
+    }
+  },
+  "plan_hours_per_1000_examples": {
+    "ai4privacy": 0.2291570251834249,
+    "nemotron": 0.9108317429167073,
+    "gretel": 1.9290758928000282
+  },
+  "plan": {
+    "versions": 6,
+    "runs": {
+      "presidio": 1,
+      "gliner": 1,
+      "bert": 3
+    }
+  }
+}
