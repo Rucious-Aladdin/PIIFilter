@@ -1,0 +1,10 @@
+{
+  "id": "dentist_noisy",
+  "title": "Demo 01 (noisy)",
+  "prompt": "write a polite emial to my dentist asking to move my apointment to next week my name is daniel whitfeild i was born on 14 march 1991 and the office can reach me at 202 555 0143",
+  "gold": [
+    {"label": "NAME", "value": "daniel whitfeild"},
+    {"label": "DATE_OF_BIRTH", "value": "14 march 1991"},
+    {"label": "PHONE", "value": "202 555 0143"}
+  ]
+}

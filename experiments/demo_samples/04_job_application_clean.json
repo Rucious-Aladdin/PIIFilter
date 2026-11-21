@@ -1,0 +1,11 @@
+{
+  "id": "job_application_clean",
+  "title": "Demo 04 (clean)",
+  "prompt": "Write a short cover letter for a barista job. I'm Sofia Marin, I live at 8 Harbor Lane, my phone number is 415-555-0126, and my email is sofia.marin@example.com.",
+  "gold": [
+    {"label": "NAME", "value": "Sofia Marin"},
+    {"label": "ADDRESS", "value": "8 Harbor Lane"},
+    {"label": "PHONE", "value": "415-555-0126"},
+    {"label": "EMAIL", "value": "sofia.marin@example.com"}
+  ]
+}

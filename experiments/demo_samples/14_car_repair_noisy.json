@@ -1,0 +1,10 @@
+{
+  "id": "car_repair_noisy",
+  "title": "Demo 14 (noisy)",
+  "prompt": "write a text to the garage asking for a repair qoute im lucas moreu they can pick up the car at 66 station raod and my number is 415 555 0164",
+  "gold": [
+    {"label": "NAME", "value": "lucas moreu"},
+    {"label": "ADDRESS", "value": "66 station raod"},
+    {"label": "PHONE", "value": "415 555 0164"}
+  ]
+}

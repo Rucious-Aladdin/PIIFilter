@@ -1,0 +1,10 @@
+{
+  "id": "daycare_noisy",
+  "title": "Demo 18 (noisy)",
+  "prompt": "write a registraton note for the daycare my daughter is mia lindqvst she was born on 30 sept 2022 and her father can be reached at 415 555 0137",
+  "gold": [
+    {"label": "NAME", "value": "mia lindqvst"},
+    {"label": "DATE_OF_BIRTH", "value": "30 sept 2022"},
+    {"label": "PHONE", "value": "415 555 0137"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "barbecue_noisy",
+  "title": "Demo 10 (noisy)",
+  "prompt": "write a freindly invitation to my neighbors for a bbq on saturday im tom beker the party is at 19 orchard st and they can text me at 202 555 0119",
+  "gold": [
+    {"label": "NAME", "value": "tom beker"},
+    {"label": "ADDRESS", "value": "19 orchard st"},
+    {"label": "PHONE", "value": "202 555 0119"}
+  ]
+}

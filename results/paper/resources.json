@@ -1,0 +1,62 @@
+{
+  "examples": 100,
+  "detectors": {
+    "presidio": {
+      "parameters": 0,
+      "threads": 1,
+      "peak_ram_mb": 734.25390625,
+      "times": {
+        "ai4privacy": {
+          "mean_ms": 2.3104440399765735,
+          "median_ms": 0.36754500001734414
+        },
+        "nemotron": {
+          "mean_ms": 1.9654785600050673,
+          "median_ms": 1.4487595001355658
+        },
+        "gretel": {
+          "mean_ms": 3.8745017400287907,
+          "median_ms": 2.8382559996771306
+        }
+      }
+    },
+    "bert": {
+      "parameters": 28527155,
+      "threads": 4,
+      "peak_ram_mb": 828.6640625,
+      "times": {
+        "ai4privacy": {
+          "mean_ms": 11.494329220013242,
+          "median_ms": 11.375549000149476
+        },
+        "nemotron": {
+          "mean_ms": 42.84744686997783,
+          "median_ms": 26.992342000085046
+        },
+        "gretel": {
+          "mean_ms": 68.08717325000998,
+          "median_ms": 69.40854549998221
+        }
+      }
+    },
+    "gliner": {
+      "parameters": 288949504,
+      "threads": 4,
+      "peak_ram_mb": 3110.38671875,
+      "times": {
+        "ai4privacy": {
+          "mean_ms": 161.39519740997457,
+          "median_ms": 170.74624199995014
+        },
+        "nemotron": {
+          "mean_ms": 557.7643505500237,
+          "median_ms": 337.5968904999809
+        },
+        "gretel": {
+          "mean_ms": 1093.57723901996,
+          "median_ms": 901.8038984997929
+        }
+      }
+    }
+  }
+}

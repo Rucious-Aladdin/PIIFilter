@@ -1,0 +1,10 @@
+{
+  "id": "rental_application_clean",
+  "title": "Demo 11 (clean)",
+  "prompt": "Help me write a short rental application. My name is Priya Nair, my date of birth is 5 January 1994, and my email is priya.nair@example.com.",
+  "gold": [
+    {"label": "NAME", "value": "Priya Nair"},
+    {"label": "DATE_OF_BIRTH", "value": "5 January 1994"},
+    {"label": "EMAIL", "value": "priya.nair@example.com"}
+  ]
+}

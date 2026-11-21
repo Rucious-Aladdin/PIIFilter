@@ -1,0 +1,10 @@
+{
+  "id": "rental_application_noisy",
+  "title": "Demo 11 (noisy)",
+  "prompt": "help me write a short rental aplication my name is priya nar my date of birth is 5 jan 1994 and my email is priya.nair@example.com",
+  "gold": [
+    {"label": "NAME", "value": "priya nar"},
+    {"label": "DATE_OF_BIRTH", "value": "5 jan 1994"},
+    {"label": "EMAIL", "value": "priya.nair@example.com"}
+  ]
+}

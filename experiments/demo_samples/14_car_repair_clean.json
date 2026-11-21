@@ -1,0 +1,10 @@
+{
+  "id": "car_repair_clean",
+  "title": "Demo 14 (clean)",
+  "prompt": "Write a text to the garage asking for a repair quote. I'm Lucas Moreau, they can pick up the car at 66 Station Road, and my number is 415-555-0164.",
+  "gold": [
+    {"label": "NAME", "value": "Lucas Moreau"},
+    {"label": "ADDRESS", "value": "66 Station Road"},
+    {"label": "PHONE", "value": "415-555-0164"}
+  ]
+}

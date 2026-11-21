@@ -1,0 +1,10 @@
+{
+  "id": "pharmacy_noisy",
+  "title": "Demo 20 (noisy)",
+  "prompt": "write a mesage to my pharmacy to renew a prescripton the patient is aisha kan born on 8 dec 1969 and the pharmacist can call 415 555 0102",
+  "gold": [
+    {"label": "NAME", "value": "aisha kan"},
+    {"label": "DATE_OF_BIRTH", "value": "8 dec 1969"},
+    {"label": "PHONE", "value": "415 555 0102"}
+  ]
+}

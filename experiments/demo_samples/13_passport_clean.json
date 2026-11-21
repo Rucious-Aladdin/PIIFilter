@@ -1,0 +1,10 @@
+{
+  "id": "passport_clean",
+  "title": "Demo 13 (clean)",
+  "prompt": "Write a letter asking for a new passport appointment. I'm Hannah Schmidt, born on 21 August 1988, and I live at 240 Pine Hill Drive.",
+  "gold": [
+    {"label": "NAME", "value": "Hannah Schmidt"},
+    {"label": "DATE_OF_BIRTH", "value": "21 August 1988"},
+    {"label": "ADDRESS", "value": "240 Pine Hill Drive"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "insurance_noisy",
+  "title": "Demo 06 (noisy)",
+  "prompt": "help me write a claim to my insurence after a water leak im henry colbi born 9/23/78 and the damage is at my home 153 cedar raod",
+  "gold": [
+    {"label": "NAME", "value": "henry colbi"},
+    {"label": "DATE_OF_BIRTH", "value": "9/23/78"},
+    {"label": "ADDRESS", "value": "153 cedar raod"}
+  ]
+}

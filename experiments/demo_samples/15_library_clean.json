@@ -1,0 +1,10 @@
+{
+  "id": "library_clean",
+  "title": "Demo 15 (clean)",
+  "prompt": "Write a request for a library card. My name is Grace Okafor, I was born on 17 April 2001, and you can write to me at grace.okafor@example.com.",
+  "gold": [
+    {"label": "NAME", "value": "Grace Okafor"},
+    {"label": "DATE_OF_BIRTH", "value": "17 April 2001"},
+    {"label": "EMAIL", "value": "grace.okafor@example.com"}
+  ]
+}

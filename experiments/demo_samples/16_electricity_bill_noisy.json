@@ -1,0 +1,10 @@
+{
+  "id": "electricity_bill_noisy",
+  "title": "Demo 16 (noisy)",
+  "prompt": "write an email to my electricty company about a wrong bill im ivan petrov the meter is at 305 lake veiw terrace and you can reply to ivan.petrov@example.com",
+  "gold": [
+    {"label": "NAME", "value": "ivan petrov"},
+    {"label": "ADDRESS", "value": "305 lake veiw terrace"},
+    {"label": "EMAIL", "value": "ivan.petrov@example.com"}
+  ]
+}

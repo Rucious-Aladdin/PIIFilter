@@ -1,0 +1,11 @@
+{
+  "id": "job_application_noisy",
+  "title": "Demo 04 (noisy)",
+  "prompt": "write a short cover leter for a barista job im sofia marin i live at 8 harbor lnae my phone number is 415 555 0126 and my email is sofia.marin@example.com",
+  "gold": [
+    {"label": "NAME", "value": "sofia marin"},
+    {"label": "ADDRESS", "value": "8 harbor lnae"},
+    {"label": "PHONE", "value": "415 555 0126"},
+    {"label": "EMAIL", "value": "sofia.marin@example.com"}
+  ]
+}

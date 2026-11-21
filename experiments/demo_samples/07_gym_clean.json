@@ -1,0 +1,10 @@
+{
+  "id": "gym_clean",
+  "title": "Demo 07 (clean)",
+  "prompt": "Write an email to cancel my gym membership. My name is Nadia Rahman, my account email is nadia.rahman@example.com, and please stop charging my card 5555 5555 5555 4444.",
+  "gold": [
+    {"label": "NAME", "value": "Nadia Rahman"},
+    {"label": "EMAIL", "value": "nadia.rahman@example.com"},
+    {"label": "CARD_NUMBER", "value": "5555 5555 5555 4444"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "lost_card_clean",
+  "title": "Demo 02 (clean)",
+  "prompt": "Help me write a message to my bank. I'm Laura Bennett, I lost my card 4111 1111 1111 1111 yesterday and I need a replacement. Please call me at 202-555-0171.",
+  "gold": [
+    {"label": "NAME", "value": "Laura Bennett"},
+    {"label": "CARD_NUMBER", "value": "4111 1111 1111 1111"},
+    {"label": "PHONE", "value": "202-555-0171"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "lost_card_noisy",
+  "title": "Demo 02 (noisy)",
+  "prompt": "help me write a mesage to my bank im laura benett i lost my card 4111111111111111 yesterday and i need a replacment pls call me at 2025550171",
+  "gold": [
+    {"label": "NAME", "value": "laura benett"},
+    {"label": "CARD_NUMBER", "value": "4111111111111111"},
+    {"label": "PHONE", "value": "2025550171"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "barbecue_clean",
+  "title": "Demo 10 (clean)",
+  "prompt": "Write a friendly invitation to my neighbors for a barbecue on Saturday. I'm Tom Becker, the party is at 19 Orchard Street, and they can text me at 202-555-0119.",
+  "gold": [
+    {"label": "NAME", "value": "Tom Becker"},
+    {"label": "ADDRESS", "value": "19 Orchard Street"},
+    {"label": "PHONE", "value": "202-555-0119"}
+  ]
+}

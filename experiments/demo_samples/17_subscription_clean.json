@@ -1,0 +1,10 @@
+{
+  "id": "subscription_clean",
+  "title": "Demo 17 (clean)",
+  "prompt": "Help me write a message to update the payment on my subscription. I'm Julia Reinholt, the new card is 4012 8888 8888 1881, and my phone is 202-555-0182.",
+  "gold": [
+    {"label": "NAME", "value": "Julia Reinholt"},
+    {"label": "CARD_NUMBER", "value": "4012 8888 8888 1881"},
+    {"label": "PHONE", "value": "202-555-0182"}
+  ]
+}
