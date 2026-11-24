@@ -22,3 +22,10 @@ data/
 # Fine-tuned models (question 3) and the step reports (Korean PDFs), kept out of git
 models/
 reports/
+
+# LaTeX build files of the result tables (the PDF is kept)
+docs/results_tables/*.aux
+docs/results_tables/*.fdb_latexmk
+docs/results_tables/*.fls
+docs/results_tables/*.log
+docs/results_tables/*.out

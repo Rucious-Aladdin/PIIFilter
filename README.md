@@ -41,6 +41,8 @@ experiments/
   prepare_train.py         draw the fine-tuning data (Q3) into data/train/
   train_bert.py            fine-tune BERT on clean or clean + noisy data (Q3) into models/
   summarize_noise.py       tables of questions 2 and 3 (results/noise/)
+  significance_noise.py    intervals and paired tests of questions 2 and 3 (results/analysis/)
+  results_tables.py        LaTeX tables of the key results of Q1 to Q3 (docs/results_tables/)
   tune_gliner.py           choose GLiNER's cut-off once (results/gliner_threshold.json)
   time_detectors.py        time the detectors on this computer (results/timing.json)
   significance.py          scores with 95% intervals and paired tests (results/analysis/)
@@ -60,13 +62,14 @@ results/predictions/       detector outputs: <detector>/<dataset>/<version>.json
 results/scores.md, .json   benchmark scores
 results/without_name_address/   the same without NAME and ADDRESS (see Question 1)
 results/gliner_threshold.json, timing.json   GLiNER cut-off, detector timings
-results/analysis/          analysis of question 1 (intervals, tests, sensitivity, contamination)
+results/analysis/          intervals and tests of questions 1 to 3, sensitivity, contamination
 results/noise/             tables of questions 2 and 3 (summary.md, summary_dates.md, ...)
 data/analysis/             GLiNER run at a low cut-off, for the sensitivity analysis (git-ignored)
 results/paper/             tables of the paper
 results/toy/<backend>/     toy experiment outputs (toy_results.json, toy_results.md)
 slides/toy_experiment/     Beamer frames for the Toy Experiment slides + compiled preview
-docs/                      proposal, presentation, and the Q1 report (q1_report/: en, fr, ko)
+docs/                      proposal, presentation, the Q1 report (q1_report/: en, fr, ko),
+                           key result tables of Q1 to Q3 (results_tables/results_tables.pdf)
 tests/                     unit tests (uv run pytest)
 pyproject.toml, uv.lock    environment (uv)
 ```
@@ -114,6 +117,9 @@ uv run pytest
 | Q1 | Presidio (rules only), BERT and GLiNER on clean text | done, see the [report](docs/q1_report/q1_report_en.md) ([fr](docs/q1_report/q1_report_fr.md), [ko](docs/q1_report/q1_report_ko.md)) |
 | Q2 | the same detectors on noisy copies of the test sets | done, see [Question 2](#question-2-noisy-text) |
 | Q3 | BERT: original, fine-tuned on clean text, fine-tuned on clean + noisy text | done, see [Question 3](#question-3-fine-tuning-bert-on-noisy-text) |
+
+The key tables of all three questions, with intervals and tests, are in one three-page PDF:
+[docs/results_tables/results_tables.pdf](docs/results_tables/results_tables.pdf).
 
 Question 1 uses four comparisons, because Presidio's rules cannot find names or addresses,
 and Presidio and BERT only have a class for any date. A-dates and B-dates together are
@@ -396,12 +402,13 @@ Micro F2 on the clean test set and change on each noisy copy, all six labels:
 | | BERT | 0.718 | -0.064 | -0.069 | 0.000 | -0.011 | +0.003 | -0.033 |
 | | GLiNER | 0.713 | -0.009 | -0.014 | +0.004 | -0.012 | +0.001 | -0.007 |
 
-Missing and extra spaces cost the most, then typos. GLiNER loses less than BERT on the mixed
-copies of all three datasets, but lowercase text raises its leak rate (ai4privacy: 6.1% to
-9.0%). BERT is not affected by lowercase text at all, as expected: its tokenizer lowercases
-every text. Number formats matter most for dates (comparison A-dates: Presidio -0.241 on
-Nemotron-PII). Leak rates and the other comparisons are in `results/noise/`. These are point
-estimates: the intervals and paired tests of question 1 have not been run on the noisy copies yet.
+Missing and extra spaces cost the most, then typos. GLiNER loses less than BERT on the typo,
+space and mixed copies of all three datasets (the 95% intervals of the difference exclude 0),
+but lowercase text raises its leak rate (ai4privacy: 6.1% to 9.0%). BERT is not affected by
+lowercase text at all, as expected: its tokenizer lowercases every text. Number formats matter
+most for dates (comparison A-dates: Presidio -0.241 on Nemotron-PII). Every change of 0.01 or
+more in the table is established by the paired tests below, and none of the smaller ones is.
+Leak rates and the other comparisons are in `results/noise/`.
 
 ### Question 3: fine-tuning BERT on noisy text
 
@@ -440,7 +447,27 @@ Both versions saw ai4privacy-style sentences, so they are compared with each oth
 the original BERT or the other detectors (proposal, Appendix B): fine-tuning on ai4privacy
 alone lowers the scores on Gretel, whose documents were in the original BERT's training
 data, mostly through addresses (F2 0.80 to 0.12), because ai4privacy marks only the building
-number and street. All columns and comparisons are in `results/noise/`.
+number and street. All columns and comparisons are in `results/noise/`. In F2 on the six
+labels, every difference between the two versions is established on Nemotron-PII and Gretel,
+on clean text too; on ai4privacy those on the typo, space, number and mixed copies are, and the
+clean cost (0.003) is detectable but below 0.01.
+
+### Intervals and tests of questions 2 and 3
+
+```bash
+uv run python experiments/significance_noise.py   # results/analysis/significance_noise.md (about 3 min, 6 processes)
+uv run python experiments/results_tables.py       # docs/results_tables/tables/
+cd docs/results_tables && latexmk -pdf results_tables.tex
+```
+
+The method of question 1 (below), with the clusters of the clean test set, so a noisy copy is
+always drawn with its clean example. A fine-tuned version's score is the mean of its three
+seeds, in each bootstrap draw and randomization round too; the test swaps the two versions'
+outputs for the three seed pairs at once. Three families of tests, each for F1, F2 and leak
+rate, with Holm's correction: change on a noisy copy of Presidio, BERT and GLiNER (216 tests),
+noisy-trained minus clean-trained BERT on every test set (84), and change on a noisy copy of
+each fine-tuned version (144). The randomization uses 20,000 rounds because these families
+are larger than those of question 1.
 
 ### Analysis of question 1
 

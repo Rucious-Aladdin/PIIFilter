@@ -1,0 +1,20 @@
+\begin{tabular}{llrrrrrrr}
+\toprule
+\hDataset & \hModel & \hClean & \kTypo & \kSpace & \kCase & \kPunct & \kNumber & \kMixed \\
+\midrule
+ai4privacy & \mOriginal & \refv{0.790} & \refv{0.708} & \refv{0.680} & \refv{0.790} & \refv{0.774} & \refv{0.768} & \refv{0.731} \\
+ & \mFTclean & 0.987 & 0.881 & 0.857 & 0.987 & 0.980 & 0.950 & 0.914 \\
+ & \mFTnoisy & 0.985 & 0.956 & 0.945 & 0.985 & 0.978 & 0.982 & 0.965 \\
+& \hDiff & \ns{$-$0.002} & \textbf{$+$0.074} & \textbf{$+$0.088} & \ns{$-$0.002} & \ns{$-$0.003} & \textbf{$+$0.032} & \textbf{$+$0.051} \\
+\midrule
+Nemotron-PII & \mOriginal & \refv{0.778} & \refv{0.735} & \refv{0.710} & \refv{0.778} & \refv{0.776} & \refv{0.712} & \refv{0.705} \\
+ & \mFTclean & 0.743 & 0.644 & 0.645 & 0.743 & 0.718 & 0.604 & 0.597 \\
+ & \mFTnoisy & 0.817 & 0.782 & 0.773 & 0.817 & 0.792 & 0.802 & 0.785 \\
+& \hDiff & \textbf{$+$0.074} & \textbf{$+$0.139} & \textbf{$+$0.128} & \textbf{$+$0.074} & \textbf{$+$0.073} & \textbf{$+$0.199} & \textbf{$+$0.187} \\
+\midrule
+Gretel & \mOriginal & \refv{0.787} & \refv{0.711} & \refv{0.710} & \refv{0.787} & \refv{0.771} & \refv{0.764} & \refv{0.736} \\
+ & \mFTclean & 0.492 & 0.423 & 0.427 & 0.492 & 0.491 & 0.440 & 0.430 \\
+ & \mFTnoisy & 0.519 & 0.489 & 0.489 & 0.519 & 0.527 & 0.513 & 0.506 \\
+& \hDiff & \textbf{$+$0.027} & \textbf{$+$0.066} & \textbf{$+$0.062} & \textbf{$+$0.027} & \textbf{$+$0.035} & \textbf{$+$0.073} & \textbf{$+$0.076} \\
+\bottomrule
+\end{tabular}

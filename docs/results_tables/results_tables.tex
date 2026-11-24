@@ -1,0 +1,176 @@
+% Key result tables of questions 1 to 3. The tables are written by experiments/results_tables.py
+% from results/analysis/significance.json and significance_noise.json.
+%   uv run python experiments/results_tables.py
+%   cd docs/results_tables && latexmk -pdf results_tables.tex
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1.7cm,top=1.5cm,bottom=1.6cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\captionsetup{font=small,labelfont=bf,skip=3pt,justification=justified,singlelinecheck=false}
+\setlength{\tabcolsep}{4.5pt}
+\setlist{nosep,leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\pagestyle{plain}
+
+\definecolor{faint}{gray}{0.58}
+\newcommand{\ns}[1]{\textcolor{faint}{#1}}          % not established
+\newcommand{\refv}[1]{\textcolor{faint}{\textit{#1}}} % reference row
+% A table that stays where it is written
+\newenvironment{tab}{\par\medskip\noindent\begin{minipage}{\linewidth}\centering\small}{\end{minipage}\par\medskip}
+\newcommand{\inshort}[1]{\par\smallskip\textbf{In short.}\begin{itemize}#1\end{itemize}}
+
+% Words used in the generated tables (tables/*.tex)
+\newcommand{\hDataset}{Dataset}
+\newcommand{\hModel}{Model}
+\newcommand{\hCI}{{\scriptsize[95\% CI]}}
+\newcommand{\hLeak}{Leak (\%)}
+\newcommand{\hClean}{clean}
+\newcommand{\hChange}{change on the noisy copy}
+\newcommand{\hGap}{BERT $-$ GLiNER}
+\newcommand{\hDiff}{\textit{difference}}
+\newcommand{\hLossMixed}{Loss on mixed}
+\newcommand{\hWonMixed}{Won back on mixed (share)}
+\newcommand{\hCleanCost}{Cost on clean}
+\newcommand{\hLeakMixed}{Leak on mixed (\%)}
+\newcommand{\cB}{B}
+\newcommand{\cAd}{A-d}
+\newcommand{\cBd}{B-d}
+\newcommand{\mFTclean}{BERT-FT clean}
+\newcommand{\mFTnoisy}{BERT-FT clean+noisy}
+\newcommand{\mOriginal}{\refv{BERT (original)}}
+\newcommand{\kTypo}{typo}
+\newcommand{\kSpace}{space}
+\newcommand{\kCase}{case}
+\newcommand{\kPunct}{punct}
+\newcommand{\kNumber}{number}
+\newcommand{\kMixed}{mixed}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries PIIGuard: performance of every model, questions 1 to 3}\\[3pt]
+{\small Key result tables \textperiodcentered{} CSED490E, PIIGuard team \textperiodcentered{} November 24, 2026}
+\end{center}
+
+\textbf{Setup.}
+Test sets: ai4privacy (10,000 sentences), Nemotron-PII (2,000 documents) and Gretel (2,962 documents).
+Micro scores with strict matching (same start, end and label). The \emph{leak rate} is the share of gold PII
+values that reach the language model unmasked. Comparisons: \textbf{A} the six labels of the proposal (main);
+\textbf{B} without names and addresses; \textbf{A-dates} and \textbf{B-dates} (comparison C) score every date
+instead of the date of birth.
+\emph{Noisy copies} (question 2): about one edit per ten words, of one kind (typo, space, case, punct, number) or of
+all five (mixed), seed 1; the gold spans follow the text. \emph{BERT-FT} (question 3): the benchmark's BERT
+fine-tuned on the ai4privacy train split (115,533 records), on clean records only or on clean records plus one
+mixed-noise copy of each, with the same settings and steps; scores are the mean of three training seeds. The two
+versions are compared with each other only, not with the off-the-shelf detectors (proposal, Appendix B).
+\emph{Statistics}: 95\% intervals from a paired cluster bootstrap (10,000 draws); paired approximate
+randomization tests (10,000 rounds for question 1, 20,000 for questions 2 and 3), Holm's correction within each
+family. A difference is \emph{established} when the corrected $p<0.05$, its interval excludes 0 and it is at
+least 0.01.
+
+\section*{Question 1: clean text}
+
+\begin{tab}
+\input{tables/clean_A}
+\captionof{table}{Every model on the clean test sets, comparison A. Bold: established as better than both other
+off-the-shelf detectors (question 1 tests; P and R were not tested). The BERT-FT rows are not part of these tests.}
+\label{tab:clean}
+\end{tab}
+
+\begin{tab}
+\input{tables/clean_other}
+\captionof{table}{Micro F2 on the clean test sets in the other comparisons: B (email, phone, date of birth, card
+number), A-d = A-dates (six labels, every date), B-d = B-dates. Bold as in Table~\ref{tab:clean}.}
+\label{tab:other}
+\end{tab}
+
+\inshort{
+\item GLiNER has the best F2 on ai4privacy and Nemotron-PII. On Gretel, BERT and GLiNER are level in F2 (GLiNER is
+  ahead in F1), and BERT is ahead once every date is scored (A-dates, 0.787 against 0.595). Presidio finds no
+  names or addresses (F2 0.16 to 0.43).
+\item BERT-FT is almost perfect in its own domain (ai4privacy, F2 0.986) but falls below the original BERT on Gretel,
+  mostly through addresses: ai4privacy marks only the building number and street.
+}
+
+\clearpage
+\section*{Question 2: the off-the-shelf detectors on noisy text}
+
+\begin{tab}
+\input{tables/q2_f2}
+\captionof{table}{Micro F2 on the clean test set and its change on each noisy copy, comparison A. \ns{Gray}: change
+not established. \textit{BERT $-$ GLiNER}: BERT's change minus GLiNER's (negative: BERT loses more); 95\% interval
+only, not tested; gray when the interval contains 0.}
+\label{tab:q2f2}
+\end{tab}
+
+\begin{tab}
+\input{tables/q2_leak}
+\captionof{table}{Leak rate (\%) on the clean test set and its change in points on each noisy copy, comparison A
+(higher is worse). \ns{Gray}: change not established.}
+\label{tab:q2leak}
+\end{tab}
+
+\begin{tab}
+\input{tables/q2_f2_dates}
+\captionof{table}{As Table~\ref{tab:q2f2}, comparison A-dates (every date scored).}
+\label{tab:q2dates}
+\end{tab}
+
+\inshort{
+\item For BERT and GLiNER, missing or extra spaces cost the most on every dataset, and typos come next except for
+  GLiNER on Gretel. On typo, space and mixed noise BERT loses more than GLiNER on all three datasets (intervals of
+  \textit{BERT $-$ GLiNER} below 0).
+\item Lowercase text does not change BERT at all (its tokenizer lowercases) but hurts GLiNER on ai4privacy
+  (F2 $-$0.028, leak rate $+$3.0 points).
+\item Number noise barely matters in comparison A, where only dates of birth are scored, but breaks dates when every
+  date is scored (A-dates): Presidio $-$0.241 and BERT $-$0.066 on Nemotron-PII.
+}
+
+\clearpage
+\section*{Question 3: BERT fine-tuned on noisy text}
+
+\begin{tab}
+\input{tables/q3_f2}
+\captionof{table}{Micro F2 of the two fine-tuned versions on every test set, comparison A (mean of three seeds; seed
+standard deviation at most 0.001 on ai4privacy and 0.02 elsewhere). \textit{difference}: BERT-FT clean+noisy minus
+BERT-FT clean, \textbf{bold} when established, \ns{gray} when not. \refv{BERT (original)}: for reference only, not
+tested (other training data).}
+\label{tab:q3f2}
+\end{tab}
+
+\begin{tab}
+\input{tables/q3_summary}
+\captionof{table}{Question 3 in short (comparison A, F2 unless stated), with 95\% intervals. Loss: BERT-FT clean on
+clean minus on mixed. Won back: BERT-FT clean+noisy minus BERT-FT clean on mixed, and its share of the loss (above
+100\% when the noisy version is better on clean text too). Cost: BERT-FT clean minus BERT-FT clean+noisy on clean
+(negative: no cost). Leak: BERT-FT clean $\to$ BERT-FT clean+noisy. \ns{Gray}: not established.}
+\label{tab:q3sum}
+\end{tab}
+
+\begin{tab}
+\input{tables/q3_f2_dates}
+\captionof{table}{As Table~\ref{tab:q3f2}, comparison A-dates (every date scored).}
+\label{tab:q3dates}
+\end{tab}
+
+\inshort{
+\item In its own domain (ai4privacy), training on the noisy copies wins back two thirds of the mixed-noise loss
+  ($+$0.047 of 0.071) for a clean cost of 0.003, detectable but below 0.01.
+\item On the other two datasets, BERT-FT clean+noisy is better on every test set, clean text included
+  (Nemotron-PII $+$0.068, Gretel $+$0.026), and leaks less (Nemotron-PII mixed 24.6\% $\to$ 12.9\%). All these
+  differences are established.
+}
+
+\vfill
+{\footnotesize Sources: \texttt{results/analysis/significance.json} (question 1) and
+\texttt{significance\_noise.json} (\texttt{experiments/significance\_noise.py}); tables written by
+\texttt{experiments/results\_tables.py}. Other comparisons, F1 and every interval:
+\texttt{results/analysis/significance\_noise.md}.}
+
+\end{document}
