@@ -1,0 +1,29 @@
+{
+  "detector": "gliner",
+  "name": "gliner",
+  "model": "urchade/gliner_multi_pii-v1",
+  "revision": "1fcf13e85f4eef5394e1fcd406cf2ca9ea82351d",
+  "threshold": 0.35,
+  "dates": true,
+  "dataset": "ai4privacy",
+  "version": "noisy_punct_dates",
+  "test_set": "ai4privacy_noisy_punct_dates.jsonl",
+  "test_sha256": "d39dbcc4f93bce6398cb9e6186b91249fe39f4efa346fa29ccce6c246fe73a10",
+  "examples": 10000,
+  "examples_run": 10000,
+  "seconds": 122.1,
+  "date": "2026-11-24T08:49:53+00:00",
+  "computer": {
+    "machine": "x86_64",
+    "system": "Linux",
+    "cpu_count": 64,
+    "torch_threads": 64,
+    "gpu": "NVIDIA GeForce RTX 4090"
+  },
+  "packages": {
+    "presidio-analyzer": "2.2.366",
+    "transformers": "5.16.1",
+    "gliner": "0.2.29",
+    "torch": "2.14.1"
+  }
+}

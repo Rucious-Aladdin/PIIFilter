@@ -1,0 +1,14 @@
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{ai4privacy} & \multicolumn{3}{c}{Nemotron-PII} & \multicolumn{3}{c}{Gretel} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+\hModel & \cB & \cAd & \cBd & \cB & \cAd & \cBd & \cB & \cAd & \cBd \\
+\midrule
+Presidio & 0.616 & 0.178 & 0.544 & 0.757 & 0.532 & 0.791 & 0.569 & 0.227 & 0.408 \\
+BERT & 0.891 & 0.790 & 0.835 & 0.757 & 0.778 & 0.784 & 0.459 & \textbf{0.787} & \textbf{0.744} \\
+GLiNER & 0.898 & \textbf{0.872} & \textbf{0.909} & \textbf{0.960} & \textbf{0.801} & \textbf{0.868} & \textbf{0.737} & 0.595 & 0.467 \\
+\midrule
+\mFTclean & 0.993 & 0.987 & 0.995 & 0.618 & 0.743 & 0.701 & 0.507 & 0.492 & 0.475 \\
+\mFTnoisy & 0.993 & 0.985 & 0.995 & 0.720 & 0.817 & 0.800 & 0.524 & 0.519 & 0.500 \\
+\bottomrule
+\end{tabular}

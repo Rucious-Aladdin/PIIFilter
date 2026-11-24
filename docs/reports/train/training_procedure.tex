@@ -1,0 +1,236 @@
+% How the BERT of question 3 is fine-tuned: data, labels, tags, settings, runs.
+% The numbers come from results/training/*.json, written by experiments/train_bert.py (2026-11-24).
+%   cd docs/reports/train && latexmk -pdf training_procedure.tex
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2cm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage[hidelinks]{hyperref}
+\captionsetup{font=small,labelfont=bf,skip=4pt}
+\setlist{itemsep=1pt,topsep=3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\newcommand{\file}[1]{\texttt{#1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries PIIGuard: how BERT is fine-tuned}\\[3pt]
+{\small Training procedure of question 3 \textperiodcentered{} CSED490E, PIIGuard team
+\textperiodcentered{} November 24, 2026}
+\end{center}
+
+Question 3 asks whether training on noisy text wins back what noise costs a detector, and what it
+costs on clean text (proposal, Appendix B). This document gives the training procedure in full.
+The data it uses is described in \file{docs/reports/data/data\_generation.pdf}; the results are
+in the Q2/Q3 report (\file{docs/reports/q2\_q3/}).
+
+\section{The two versions}
+
+\begin{tabularx}{\linewidth}{@{}llL@{}}
+\toprule
+Version & Model folder & Training data \\
+\midrule
+(a) clean & \file{models/bert-clean-s<seed>} & \file{ai4privacy\_train\_clean}: 115,533 records \\
+(b) clean + noisy & \file{models/bert-noisy-s<seed>} & \file{ai4privacy\_train\_clean} + \file{ai4privacy\_train\_noisy}: 231,066 records (each record and one mixed-noise copy of it) \\
+\bottomrule
+\end{tabularx}
+
+Everything else is the same: the starting model, the settings, the number of steps and the seeds
+(0, 1, 2). The only difference is the noisy copies, so a difference between (a) and (b) comes
+from them. Six models in all. The models are not in git (about 110 MB each) but are on Hugging Face (Section~7); each run's record is in git
+(\file{results/training/<model>.json}).
+
+\section{Starting model}
+
+\begin{itemize}
+\item \file{gravitee-io/bert-small-pii-detection}, revision \file{f8c27a85c51c0168f07b9dcf00265bf0a4097939}:
+  the BERT of the benchmark (28.5M parameters), already trained by Gravitee to tag 25 PII classes
+  named as in Presidio.
+\item Its classification head is kept as it is: the same 51 tags (\file{O}, and \file{B-} and
+  \file{I-} for each of the 25 classes) and the same tag ids. So
+  \file{baselines/bert\_detector.py} reads a fine-tuned model exactly like the original, with the
+  same class mapping; only the weights differ.
+\item Its tokenizer is uncased WordPiece: every text is lowercased before the model sees it.
+\end{itemize}
+
+\section{From gold spans to token tags}
+
+Our labels are taught as the model's own classes:
+
+\begin{center}
+\begin{tabular}{@{}ll@{\hspace{3em}}ll@{}}
+\toprule
+Our label & BERT class & Our label & BERT class \\
+\midrule
+NAME & PERSON & ADDRESS & LOCATION \\
+EMAIL & EMAIL\_ADDRESS & DATE (every date) & DATE\_TIME \\
+PHONE & PHONE\_NUMBER & CARD\_NUMBER & CREDIT\_CARD \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item \textbf{Dates.} The training data uses the comparison-C labels: every date is \file{DATE},
+  taught as \file{DATE\_TIME}. ai4privacy has no birth-date label; leaving its dates untagged
+  would teach the model that dates are not PII. At test time the detector maps \file{DATE\_TIME}
+  to \file{DATE\_OF\_BIRTH} (six labels) or \file{DATE} (\file{\_dates} versions), as for the
+  original model.
+\item \textbf{Other tokens} get \file{O}, so the model also learns that what ai4privacy labels
+  otherwise (cities, zip codes, titles, \ldots) is not one of our labels.
+\item \textbf{Tagging} (\file{bio\_labels} in \file{experiments/train\_bert.py}). The text is
+  tokenized with character offsets, cut at 256 tokens. Each token takes the gold span in which its
+  first character falls: \file{B-<class>} if it is the first token of that span, \file{I-<class>}
+  for the next ones, \file{O} outside every span. \file{[CLS]} and \file{[SEP]} get $-100$ and are
+  left out of the loss.
+\item \textbf{Length.} 256 tokens is the window \file{BertDetector} reads. ai4privacy records are
+  short (median 29 tokens); 1 record of 115,533 is longer and is cut.
+\end{itemize}
+
+\section{Settings}
+
+\begin{tabularx}{\linewidth}{@{}lL@{}}
+\toprule
+Setting & Value \\
+\midrule
+Trainer & Hugging Face \file{Trainer} (transformers 5.16.1, torch 2.14.1) \\
+Optimizer & AdamW (the \file{Trainer}'s default), weight decay 0.01 \\
+Learning rate & $5\times10^{-5}$, linear warm-up over the first 6\% of the steps (650), then linear decay to 0 \\
+Batch & 32 records per step, padded per batch (\file{DataCollatorForTokenClassification}) \\
+Steps & $\lceil 3 \times 115{,}533 / 32 \rceil = 10{,}832$ for \textbf{both} versions: three passes over the clean training set. Version (b), with twice the records, sees each record 1.5 times \\
+Precision & bf16 \\
+Seeds & \file{seed} = \file{data\_seed} = 0, 1 or 2. No layer is newly initialized, so the seed sets only the order of the batches and the dropout \\
+Evaluation during training & dev clean and dev noisy (5,000 records each), every 1,805 steps, batch 128; logged only \\
+Model kept & the last step. The dev sets never choose a checkpoint: the noisy dev set would favour version (b) \\
+Tuning & none. The settings were fixed before the runs and are the same for both versions \\
+\bottomrule
+\end{tabularx}
+
+The settings are written once in \file{experiments/train\_bert.py} (\file{SETTINGS}); the command
+line only chooses the version and the seed.
+
+\section{Runs}
+
+The six runs were made at the same time, one per GPU, on November 24, 2026.
+
+\begin{center}
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Model & GPU & Seconds & Training loss & Dev loss, clean & Dev loss, noisy \\
+\midrule
+\file{bert-clean-s0} & RTX 4090 & 113 & 0.0161 & 0.0124 & 0.1314 \\
+\file{bert-clean-s1} & L40S & 118 & 0.0162 & 0.0119 & 0.1330 \\
+\file{bert-clean-s2} & RTX 4090 & 136 & 0.0161 & 0.0124 & 0.1361 \\
+\midrule
+\file{bert-noisy-s0} & RTX 4090 & 112 & 0.0258 & 0.0138 & 0.0267 \\
+\file{bert-noisy-s1} & RTX 4090 & 106 & 0.0256 & 0.0126 & 0.0253 \\
+\file{bert-noisy-s2} & RTX 4090 & 148 & 0.0258 & 0.0126 & 0.0254 \\
+\bottomrule
+\end{tabular}
+\captionof{table}{Training loss: mean over the run. Dev losses: at the last step.}
+\end{center}
+
+Version (b) has a higher training loss because half of its records are noisy, which is harder.
+
+\begin{center}
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+Model & Dev set & step 1,805 & 3,610 & 5,415 & 7,220 & 9,025 & 10,830 \\
+\midrule
+(a) clean & clean & 0.0173 & 0.0135 & 0.0127 & 0.0128 & 0.0127 & 0.0122 \\
+(a) clean & noisy & 0.0945 & 0.1048 & 0.1143 & 0.1250 & 0.1352 & 0.1335 \\
+(b) clean + noisy & clean & 0.0210 & 0.0162 & 0.0146 & 0.0129 & 0.0134 & 0.0130 \\
+(b) clean + noisy & noisy & 0.0411 & 0.0319 & 0.0285 & 0.0264 & 0.0269 & 0.0258 \\
+\bottomrule
+\end{tabular}
+\captionof{table}{Dev loss during training, mean over the three seeds (\file{results/training/summary.md}).}
+\end{center}
+
+The clean-only version gets worse on the noisy dev set as training goes on (0.095 to 0.134), in
+all three seeds; version (b) improves on both dev sets. Token-level loss is not the benchmark's
+score: the versions are compared with strict span F2 on the test sets.
+
+\section{Outputs and evaluation}
+
+\begin{itemize}
+\item \file{models/bert-<version>-s<seed>/} holds the weights, the configuration, the tokenizer
+  and \file{training.json}. Not in git.
+\item \file{results/training/bert-<version>-s<seed>.json}: the same record, in git: version, seed,
+  base model and revision, settings, number of steps and records, SHA-256 of the four data files,
+  every logged loss, final dev losses, seconds, date, GPU, package versions.
+\item \textbf{Evaluation.} Each model is run on the clean and noisy test sets like the other
+  detectors, by \file{BertDetector} with \file{-{}-model}: windows of 256 tokens overlapping by 64,
+  spans grouped by the transformers pipeline, the same span clean-up and scoring. A version's
+  score is the mean of its three seeds.
+\end{itemize}
+
+\section{Published models}
+
+The six models are public on Hugging Face, one repository each, with a model card, the training
+record and the licenses. Their weights are identical to the local ones (same SHA-256), and
+\file{BertDetector} gives the same outputs with either.
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Repository & Revision \\
+\midrule
+\file{blue2959/Llama-ai4privacy-piiguard-bert-clean-s0} & \file{f0756c53aa} \\
+\file{blue2959/Llama-ai4privacy-piiguard-bert-clean-s1} & \file{916e5c198c} \\
+\file{blue2959/Llama-ai4privacy-piiguard-bert-clean-s2} & \file{a96458f30e} \\
+\file{blue2959/Llama-ai4privacy-piiguard-bert-noisy-s0} & \file{2c267fdf7e} \\
+\file{blue2959/Llama-ai4privacy-piiguard-bert-noisy-s1} & \file{b0f1cdbb56} \\
+\file{blue2959/Llama-ai4privacy-piiguard-bert-noisy-s2} & \file{5a6434209d} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item \textbf{Use}: \file{run\_benchmark.py bert -{}-model blue2959/Llama-ai4privacy-piiguard-bert-noisy-s0},
+  or the transformers \file{pipeline("token-classification", ...)}. No account is needed.
+\item \textbf{Names and licenses.} The training data was generated with Llama, so its license asks
+  that a model trained on it be named starting with ``Llama'', show ``Built with Llama'', and ship
+  the Llama Community License (3.1 and 3.3 copies in each repository). The base model is Apache-2.0.
+\item \file{training\_args.bin} is not uploaded: it holds paths of the training computer.
+\end{itemize}
+
+\section{Reproducing}
+
+{\small
+\begin{verbatim}
+uv run python experiments/prepare_train.py      # data/train/ (docs/reports/data/)
+for seed in 0 1 2; do
+  CUDA_VISIBLE_DEVICES=$seed     uv run python experiments/train_bert.py clean --seed $seed &
+  CUDA_VISIBLE_DEVICES=$((seed+3)) uv run python experiments/train_bert.py noisy --seed $seed &
+done; wait                                      # about 2 minutes, six GPUs
+uv run python experiments/run_benchmark.py bert --model models/bert-noisy-s0 --name bert-noisy-s0 \
+    --versions clean noisy_typo noisy_space noisy_case noisy_punct noisy_number noisy_mixed
+                                                # every model, and again with --dates
+uv run python experiments/score.py
+uv run python experiments/summarize_data.py     # results/training/summary.md
+\end{verbatim}
+}
+
+\file{train\_bert.py -{}-max-steps 50} makes a short run to check the set-up. A run made again on
+another GPU or package version can differ slightly in its last digits; the seed spread above shows
+how much.
+
+\section{Limits}
+
+\begin{itemize}
+\item One training domain (ai4privacy), with its own span conventions: both versions learn its
+  short addresses (building number and street), which costs them on Gretel, and its emails, none
+  of which has a dot before the \file{@} (0 of 13,282), so both versions split addresses such as
+  \file{first.last@domain}.
+\item One set of settings, not tuned; three seeds per version.
+\item The tokenizer is uncased, so lowercase noise cannot be learned or tested on this model.
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,29 @@
+{
+  "detector": "bert",
+  "name": "bert-noisy-s2",
+  "model": "models/bert-noisy-s2",
+  "revision": null,
+  "threshold": null,
+  "dates": true,
+  "dataset": "nemotron",
+  "version": "noisy_number_dates",
+  "test_set": "nemotron_noisy_number_dates.jsonl",
+  "test_sha256": "76bea3b8d1c009b5793266d74fdc036355773a2869d53deec684d1e270a9030f",
+  "examples": 2000,
+  "examples_run": 2000,
+  "seconds": 14.0,
+  "date": "2026-11-24T08:51:48+00:00",
+  "computer": {
+    "machine": "x86_64",
+    "system": "Linux",
+    "cpu_count": 64,
+    "torch_threads": 64,
+    "gpu": "NVIDIA L40S"
+  },
+  "packages": {
+    "presidio-analyzer": "2.2.366",
+    "transformers": "5.16.1",
+    "gliner": "0.2.29",
+    "torch": "2.14.1"
+  }
+}

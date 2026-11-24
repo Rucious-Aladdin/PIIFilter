@@ -1,0 +1,29 @@
+{
+  "detector": "bert",
+  "name": "bert-clean-s2",
+  "model": "models/bert-clean-s2",
+  "revision": null,
+  "threshold": null,
+  "dates": true,
+  "dataset": "gretel",
+  "version": "noisy_case_dates",
+  "test_set": "gretel_noisy_case_dates.jsonl",
+  "test_sha256": "bd144745e9aa8d0215e24d86d81020a618a70cb766d91965bd5ef65e683b2616",
+  "examples": 2962,
+  "examples_run": 2962,
+  "seconds": 30.5,
+  "date": "2026-11-24T08:53:18+00:00",
+  "computer": {
+    "machine": "x86_64",
+    "system": "Linux",
+    "cpu_count": 64,
+    "torch_threads": 64,
+    "gpu": "NVIDIA GeForce RTX 4090"
+  },
+  "packages": {
+    "presidio-analyzer": "2.2.366",
+    "transformers": "5.16.1",
+    "gliner": "0.2.29",
+    "torch": "2.14.1"
+  }
+}

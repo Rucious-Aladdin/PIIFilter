@@ -5,16 +5,25 @@
 __pycache__/
 *.pyc
 
-# LaTeX build files (preview.pdf is kept)
-slides/**/*.aux
-slides/**/*.fdb_latexmk
-slides/**/*.fls
-slides/**/*.log
-slides/**/*.nav
-slides/**/*.out
-slides/**/*.snm
-slides/**/*.toc
-slides/**/*.vrb
+# LaTeX build files under docs/ (the PDFs are kept)
+docs/**/*.aux
+docs/**/*.fdb_latexmk
+docs/**/*.fls
+docs/**/*.log
+docs/**/*.nav
+docs/**/*.out
+docs/**/*.snm
+docs/**/*.toc
+docs/**/*.vrb
+docs/**/*.xdv
+docs/**/*.synctex.gz
 
-# Datasets and the test sets drawn from them (not shared: see README, Benchmark datasets)
-data/
+# Datasets and the test sets drawn from them (not shared: see README, Benchmark datasets).
+# Root only: docs/reports/data/ holds the documents about them and is shared.
+/data/
+
+# Fine-tuned models (question 3), kept out of git
+/models/
+
+# Personal notes and translations, never shared (see docs/README.md)
+/docs/private/
