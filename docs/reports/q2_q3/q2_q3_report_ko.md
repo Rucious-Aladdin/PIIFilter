@@ -25,6 +25,8 @@
 
 ## 2. 노이즈 테스트셋
 
+파일별 체크섬까지 포함한 단계별 생성 절차는 [data_generation.pdf](../data/data_generation.pdf)(영어)에 있다.
+
 ### 2.1 노이즈 종류
 
 `benchmark/noise.py`는 proposal 4.2절의 실수 종류마다, 그리고 그것들을 섞은 것까지 텍스트의 노이즈 사본을 하나씩 만든다.
@@ -63,6 +65,8 @@
 ai4privacy 문장은 짧고 PII가 빽빽해서 편집 다섯 개 중 하나꼴로 값을 건드린다. 긴 Nemotron-PII와 Gretel 문서에서는 대부분의 편집이 값 주변 단어에 들어간다. 값 안쪽은 `case`(ai4privacy 38%)와 `number`(59%)가 가장 많이 건드리고, `punct`는 거의 건드리지 않는다(값이 문장 끝 기호로 끝나는 일이 드묾).
 
 ## 3. BERT 파인튜닝
+
+학습 절차 전체는 [training_procedure.pdf](../train/training_procedure.pdf)(영어)에 있다.
 
 ### 3.1 데이터
 

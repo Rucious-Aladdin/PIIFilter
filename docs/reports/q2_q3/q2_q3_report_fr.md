@@ -55,6 +55,8 @@ ou les poids de BERT (question 3).
 
 ## 2. Jeux de test bruités
 
+La procédure pas à pas, avec la somme de contrôle de chaque fichier, est dans [data_generation.pdf](../data/data_generation.pdf) (en anglais).
+
 ### 2.1 Les types de bruit
 
 `benchmark/noise.py` fait une copie bruitée d'un texte pour chaque type d'erreur de la section
@@ -116,6 +118,8 @@ sur ai4privacy) et `number` (59 %) qui frappent le plus, `punct` presque jamais 
 termine rarement par une ponctuation de phrase).
 
 ## 3. Affiner BERT
+
+La procédure d'entraînement complète est dans [training_procedure.pdf](../train/training_procedure.pdf) (en anglais).
 
 ### 3.1 Données
 

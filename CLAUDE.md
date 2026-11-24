@@ -23,7 +23,7 @@ questions, the scripts and the results are in `README.md`; the documents are in 
 | --- | --- |
 | `docs/proposal/` | the proposal |
 | `docs/presentation/` | the proposal presentation: slides, script, toy experiment frames |
-| `docs/reports/<name>/` | one folder per report: `q1/`, `q2_q3/`, `results_tables/`, ... |
+| `docs/reports/<name>/` | one folder per report: `q1/`, `q2_q3/`, `data/` (how the data is made), `train/` (how BERT is trained), `results_tables/`, ... |
 | `docs/private/` | personal notes, drafts and translations (git-ignored) |
 
 - Put a new document in the matching folder. A new report gets a new `docs/reports/<name>/`
@@ -38,5 +38,9 @@ questions, the scripts and the results are in `README.md`; the documents are in 
   the tests.
 - Each report belongs to its authors (`docs/reports/q1/` is Louis's). Edit one only when asked.
 - Generated files are rebuilt, not edited by hand: `docs/reports/results_tables/tables/` by
-  `experiments/results_tables.py`, `results/` by the experiment scripts.
+  `experiments/results_tables.py`, `results/` by the experiment scripts. A PDF next to its
+  LaTeX source (`docs/reports/data/`, `docs/reports/train/`, `docs/reports/results_tables/`) is
+  rebuilt with `latexmk -pdf` after the source changes.
+- `docs/reports/data/` and `docs/reports/train/` describe the procedures; the datasets themselves
+  stay in the git-ignored `data/` at the repository root.
 - After any change in `docs/` or to a link: `uv run pytest tests/test_docs_layout.py`.

@@ -11,7 +11,7 @@ The layout:
     docs/README.md                      the index (the rules for Claude are in CLAUDE.md)
     docs/proposal/...                   the proposal
     docs/presentation/...               the proposal presentation (slides, script, toy experiment)
-    docs/reports/<report>/...           one folder per report (q1, q2_q3, results_tables, ...)
+    docs/reports/<report>/...           one folder per report (q1, q2_q3, data, train, results_tables, ...)
     docs/private/...                    personal notes and translations, git-ignored
 Old places that must not come back: reports/, slides/, docs/q1_report/, docs/results_tables/.
 """
@@ -24,7 +24,7 @@ from pathlib import PurePosixPath
 
 TOP_FILES = {"README.md"}
 TOP_FOLDERS = {"proposal", "presentation", "reports", "private"}
-REPORT_NAME = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*$")  # q1, q2_q3, results_tables
+REPORT_NAME = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*$")  # q1, q2_q3, data, train, results_tables
 MOVED = {  # old place -> new place
     "reports": "docs/private",
     "slides": "docs/presentation",

@@ -50,6 +50,8 @@ of question 1. Only the text changes (question 2) or the BERT weights (question 
 
 ## 2. Noisy test sets
 
+The step-by-step procedure, with the checksums of every file, is in [data_generation.pdf](../data/data_generation.pdf).
+
 ### 2.1 The kinds of noise
 
 `benchmark/noise.py` makes one noisy copy of a text for each kind of mistake of Section 4.2,
@@ -107,6 +109,8 @@ Inside values, `case` (38% on ai4privacy) and `number` (59%) hit them most, `pun
 never (values rarely end with a sentence mark).
 
 ## 3. Fine-tuning BERT
+
+The full training procedure is in [training_procedure.pdf](../train/training_procedure.pdf).
 
 ### 3.1 Data
 

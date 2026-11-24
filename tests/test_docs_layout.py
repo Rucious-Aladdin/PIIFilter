@@ -27,13 +27,14 @@ def tracked(*paths: str) -> list[str]:
 
 
 @pytest.mark.parametrize("path", ["docs/reports/q2_q3/q2_q3_report_en.md", "docs/proposal/x.docx",
+                                  "docs/reports/data/data_generation.pdf", "docs/reports/train/training_procedure.tex",
                                   "docs/presentation/toy_experiment/preview.tex", "docs/private/notes/a.md",
                                   "docs/README.md", "experiments/score.py"])
 def test_allowed(path):
     assert docs_layout.check(path) is None
 
 
-@pytest.mark.parametrize("path", ["docs/notes.md", "docs/notes/a.md", "docs/reports/a.md", "docs/reports/Q4/a.md",
+@pytest.mark.parametrize("path", ["docs/notes.md", "docs/notes/a.md", "docs/data/x.pdf", "docs/train/x.tex", "docs/reports/a.md", "docs/reports/Q4/a.md",
                                   "docs/q1_report/q1_report_en.md", "docs/results_tables/x.tex",
                                   "reports/src/step0.md", "slides/toy_experiment/preview.tex"])
 def test_refused(path):

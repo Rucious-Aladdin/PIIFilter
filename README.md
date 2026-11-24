@@ -73,7 +73,8 @@ results/toy/<backend>/     toy experiment outputs (toy_results.json, toy_results
 docs/                      documents, by stage (index: docs/README.md)
   proposal/                the proposal
   presentation/            proposal slides, script, toy_experiment/ (Beamer frames + preview)
-  reports/                 q1/ and q2_q3/ (each in en, fr, ko), results_tables/ (key tables, PDF)
+  reports/                 q1/ and q2_q3/ (each in en, fr, ko), data/ (how the data is made, PDF),
+                           train/ (how BERT is fine-tuned, PDF), results_tables/ (key tables, PDF)
   private/                 personal notes and translations (git-ignored)
 CLAUDE.md, .claude/        rules for Claude Code, and a hook that keeps the docs/ layout
 tests/                     unit tests (uv run pytest)
