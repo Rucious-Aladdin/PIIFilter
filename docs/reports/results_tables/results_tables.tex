@@ -1,7 +1,7 @@
 % Key result tables of questions 1 to 3. The tables are written by experiments/results_tables.py
 % from results/analysis/significance.json and significance_noise.json.
 %   uv run python experiments/results_tables.py
-%   cd docs/results_tables && latexmk -pdf results_tables.tex
+%   cd docs/reports/results_tables && latexmk -pdf results_tables.tex
 \documentclass[10pt,a4paper]{article}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -138,7 +138,8 @@ only, not tested; gray when the interval contains 0.}
 \begin{tab}
 \input{tables/q3_f2}
 \captionof{table}{Micro F2 of the two fine-tuned versions on every test set, comparison A (mean of three seeds; seed
-standard deviation at most 0.001 on ai4privacy and 0.02 elsewhere). \textit{difference}: BERT-FT clean+noisy minus
+standard deviation at most 0.002 on ai4privacy and 0.025 elsewhere; wherever the difference is established, every
+seed of BERT-FT clean+noisy is above every seed of BERT-FT clean). \textit{difference}: BERT-FT clean+noisy minus
 BERT-FT clean, \textbf{bold} when established, \ns{gray} when not. \refv{BERT (original)}: for reference only, not
 tested (other training data).}
 \label{tab:q3f2}

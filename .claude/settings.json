@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/docs_layout.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking the docs layout"
+          }
+        ]
+      }
+    ]
+  }
+}

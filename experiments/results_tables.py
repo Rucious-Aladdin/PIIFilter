@@ -1,12 +1,12 @@
-"""LaTeX tables of the key results of questions 1 to 3, for docs/results_tables/.
+"""LaTeX tables of the key results of questions 1 to 3, for docs/reports/results_tables/.
 
     uv run python experiments/results_tables.py
 
 Reads results/analysis/significance.json (question 1) and significance_noise.json
-(questions 2 and 3) and writes one tabular per file to docs/results_tables/tables/. The
-document docs/results_tables/results_tables.tex inputs them:
+(questions 2 and 3) and writes one tabular per file to docs/reports/results_tables/tables/. The
+document docs/reports/results_tables/results_tables.tex inputs them:
 
-    cd docs/results_tables && latexmk -pdf results_tables.tex
+    cd docs/reports/results_tables && latexmk -pdf results_tables.tex
 
 The tables hold numbers and model names only. Every other word is a macro (\\hModel,
 \\kTypo, ...) that the document defines, so the same tables serve a translated document.
@@ -18,7 +18,7 @@ from pathlib import Path
 from benchmark.data import ANALYSIS_DIR, ROOT, SOURCES
 from benchmark.noise import NOISE_KINDS
 
-OUT = ROOT / "docs" / "results_tables" / "tables"
+OUT = ROOT / "docs" / "reports" / "results_tables" / "tables"
 DATASETS = {"ai4privacy": "ai4privacy", "nemotron": "Nemotron-PII", "gretel": "Gretel"}
 MODELS = {"presidio": "Presidio", "bert": "BERT", "gliner": "GLiNER",
           "bert-clean": r"\mFTclean", "bert-noisy": r"\mFTnoisy"}

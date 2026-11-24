@@ -10,8 +10,9 @@ user prompt → detector (NER) → mask → cloud LLM → unmask → answer show
                                  └── placeholder → value mapping stays on the device
 ```
 
-The full plan is in [docs/PIIGuard_Proposal_Merged.docx](docs/PIIGuard_Proposal_Merged.docx)
-and the slides in [docs/PII_Filter_long.pdf](docs/PII_Filter_long.pdf).
+The full plan is in [docs/proposal/PIIGuard_Proposal_Merged.docx](docs/proposal/PIIGuard_Proposal_Merged.docx)
+and the slides in [docs/presentation/PII_Filter_long.pdf](docs/presentation/PII_Filter_long.pdf).
+Every document is listed in [docs/README.md](docs/README.md).
 
 ## Repository layout
 
@@ -42,7 +43,8 @@ experiments/
   train_bert.py            fine-tune BERT on clean or clean + noisy data (Q3) into models/
   summarize_noise.py       tables of questions 2 and 3 (results/noise/)
   significance_noise.py    intervals and paired tests of questions 2 and 3 (results/analysis/)
-  results_tables.py        LaTeX tables of the key results of Q1 to Q3 (docs/results_tables/)
+  summarize_data.py        statistics of the noisy test sets and of the fine-tuning runs
+  results_tables.py        LaTeX tables of the key results of Q1 to Q3 (docs/reports/results_tables/)
   tune_gliner.py           choose GLiNER's cut-off once (results/gliner_threshold.json)
   time_detectors.py        time the detectors on this computer (results/timing.json)
   significance.py          scores with 95% intervals and paired tests (results/analysis/)
@@ -63,13 +65,17 @@ results/scores.md, .json   benchmark scores
 results/without_name_address/   the same without NAME and ADDRESS (see Question 1)
 results/gliner_threshold.json, timing.json   GLiNER cut-off, detector timings
 results/analysis/          intervals and tests of questions 1 to 3, sensitivity, contamination
-results/noise/             tables of questions 2 and 3 (summary.md, summary_dates.md, ...)
+results/noise/             tables of questions 2 and 3 (summary.md, summary_dates.md, test_sets.md, ...)
+results/training/          record of each fine-tuning run (settings, data checksums, losses), summary.md
 data/analysis/             GLiNER run at a low cut-off, for the sensitivity analysis (git-ignored)
 results/paper/             tables of the paper
 results/toy/<backend>/     toy experiment outputs (toy_results.json, toy_results.md)
-slides/toy_experiment/     Beamer frames for the Toy Experiment slides + compiled preview
-docs/                      proposal, presentation, the Q1 report (q1_report/: en, fr, ko),
-                           key result tables of Q1 to Q3 (results_tables/results_tables.pdf)
+docs/                      documents, by stage (index: docs/README.md)
+  proposal/                the proposal
+  presentation/            proposal slides, script, toy_experiment/ (Beamer frames + preview)
+  reports/                 q1/ (en, fr, ko), q2_q3/, results_tables/ (key tables, PDF)
+  private/                 personal notes and translations (git-ignored)
+CLAUDE.md, .claude/        rules for Claude Code, and a hook that keeps the docs/ layout
 tests/                     unit tests (uv run pytest)
 pyproject.toml, uv.lock    environment (uv)
 ```
@@ -114,12 +120,12 @@ uv run pytest
 
 | Question | What it measures | Status |
 | --- | --- | --- |
-| Q1 | Presidio (rules only), BERT and GLiNER on clean text | done, see the [report](docs/q1_report/q1_report_en.md) ([fr](docs/q1_report/q1_report_fr.md), [ko](docs/q1_report/q1_report_ko.md)) |
-| Q2 | the same detectors on noisy copies of the test sets | done, see [Question 2](#question-2-noisy-text) |
-| Q3 | BERT: original, fine-tuned on clean text, fine-tuned on clean + noisy text | done, see [Question 3](#question-3-fine-tuning-bert-on-noisy-text) |
+| Q1 | Presidio (rules only), BERT and GLiNER on clean text | done, see the [report](docs/reports/q1/q1_report_en.md) ([fr](docs/reports/q1/q1_report_fr.md), [ko](docs/reports/q1/q1_report_ko.md)) |
+| Q2 | the same detectors on noisy copies of the test sets | done, see the [report](docs/reports/q2_q3/q2_q3_report_en.md) and [Question 2](#question-2-noisy-text) |
+| Q3 | BERT: original, fine-tuned on clean text, fine-tuned on clean + noisy text | done, see the [report](docs/reports/q2_q3/q2_q3_report_en.md) and [Question 3](#question-3-fine-tuning-bert-on-noisy-text) |
 
 The key tables of all three questions, with intervals and tests, are in one three-page PDF:
-[docs/results_tables/results_tables.pdf](docs/results_tables/results_tables.pdf).
+[docs/reports/results_tables/results_tables.pdf](docs/reports/results_tables/results_tables.pdf).
 
 Question 1 uses four comparisons, because Presidio's rules cannot find names or addresses,
 and Presidio and BERT only have a class for any date. A-dates and B-dates together are
@@ -363,7 +369,7 @@ The same two comparisons with every date gold under DATE, in place of DATE_OF_BI
 
 Bold marks the best value in each column. 32 of the 36 differences of F2 and all 36
 differences of F1 are established. The intervals, the tests and the reading of these results
-are in the [report](docs/q1_report/q1_report_en.md).
+are in the [report](docs/reports/q1/q1_report_en.md).
 
 ### Question 2: noisy text
 
@@ -418,6 +424,7 @@ CUDA_VISIBLE_DEVICES=0 uv run python experiments/train_bert.py clean --seed 0   
 CUDA_VISIBLE_DEVICES=1 uv run python experiments/train_bert.py noisy --seed 0
 uv run python experiments/run_benchmark.py bert --model models/bert-noisy-s0 --name bert-noisy-s0 \
     --versions clean noisy_typo noisy_space noisy_case noisy_punct noisy_number noisy_mixed   # and --dates
+uv run python experiments/summarize_data.py                        # results/training/summary.md, results/noise/test_sets.md
 ```
 
 Both versions start from the benchmark's BERT and keep its 51 BIO tags, so `BertDetector`
@@ -427,9 +434,10 @@ clean version, the same plus one mixed-noise copy of each (seed 2, not the test 
 for the noisy version. Same settings and the same 10,832 steps for both (learning rate 5e-5,
 batch 32, three passes over the clean data); the last step is kept, the dev sets are only
 logged. Every date is learned as BERT's date class, which ai4privacy would otherwise teach
-it to forget. Three seeds of each version; the models are not in git.
+it to forget. Three seeds of each version; the models are not in git, but the record of each run (settings,
+data checksums, losses, time, GPU, package versions) is in `results/training/`.
 
-Micro F2, mean over the three seeds (standard deviations 0.001 on ai4privacy, at most 0.02
+Micro F2, mean over the three seeds (standard deviations at most 0.002 on ai4privacy and 0.025
 elsewhere), all six labels:
 
 | Dataset | Model | clean | typo | space | mixed |
@@ -456,8 +464,8 @@ clean cost (0.003) is detectable but below 0.01.
 
 ```bash
 uv run python experiments/significance_noise.py   # results/analysis/significance_noise.md (about 3 min, 6 processes)
-uv run python experiments/results_tables.py       # docs/results_tables/tables/
-cd docs/results_tables && latexmk -pdf results_tables.tex
+uv run python experiments/results_tables.py       # docs/reports/results_tables/tables/
+cd docs/reports/results_tables && latexmk -pdf results_tables.tex
 ```
 
 The method of question 1 (below), with the clusters of the clean test set, so a noisy copy is
@@ -611,12 +619,12 @@ prompts, and lists the answers to read.
 
 ## Slides
 
-`slides/toy_experiment/toy_frames.tex` holds three Beamer frames (setup, the clean example
+`docs/presentation/toy_experiment/toy_frames.tex` holds three Beamer frames (setup, the clean example
 end to end, results) for the Toy Experiment section of the deck. `preview.pdf` shows them in
 a look close to the deck.
 
 ```bash
-cd slides/toy_experiment
+cd docs/presentation/toy_experiment
 latexmk -pdf preview.tex
 ```
 
