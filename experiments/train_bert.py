@@ -10,7 +10,9 @@ original model. They learn from the ai4privacy train split (experiments/prepare_
 Everything else is the same for both: the settings below and the number of steps (three
 passes over train_clean), so the only difference is the noisy copies (proposal, Appendix B).
 The model is saved after the last step; the dev sets are only logged, never used to choose
-a checkpoint, since the noisy dev set would favour the noisy version.
+a checkpoint, since the noisy dev set would favour the noisy version. The training record
+(settings, data checksums, losses, time, GPU, package versions) goes to the model folder and
+to results/training/<model>.json, which is kept in git.
 
 Our labels become the model's classes (DATE -> DATE_TIME, as any date); every other token
 is O, so the model also learns that cities, titles and the like are not our labels. Each
@@ -35,6 +37,7 @@ from PIIFilter.masking import Span
 
 TRAIN_DIR = ROOT / "data" / "train"
 MODELS_DIR = ROOT / "models"
+RECORDS_DIR = ROOT / "results" / "training"  # the training records, in git (the models are not)
 
 # Our label -> the model's class
 LABEL_TO_CLASS = {
@@ -169,7 +172,10 @@ def main() -> None:
         "gpu": torch.cuda.get_device_name() if torch.cuda.is_available() else None,
         "packages": {p: version(p) for p in ("transformers", "torch")},
     }
-    (out / "training.json").write_text(json.dumps(meta, indent=2) + "\n")
+    record = json.dumps(meta, indent=2) + "\n"
+    (out / "training.json").write_text(record)
+    RECORDS_DIR.mkdir(parents=True, exist_ok=True)
+    (RECORDS_DIR / f"{out.name}.json").write_text(record)
     print(f"saved {out} ({steps} steps, {meta['seconds']} s); dev loss {meta['final_dev_loss']}")
 
 
