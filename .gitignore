@@ -18,3 +18,7 @@ slides/**/*.vrb
 
 # Datasets and the test sets drawn from them (not shared: see README, Benchmark datasets)
 data/
+
+# Fine-tuned models (question 3) and the step reports (Korean PDFs), kept out of git
+models/
+reports/
