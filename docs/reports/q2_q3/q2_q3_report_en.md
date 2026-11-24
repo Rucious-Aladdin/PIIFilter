@@ -166,7 +166,8 @@ span, `I-` for the next ones, ignored (-100) for `[CLS]` and `[SEP]`.
 
 The only difference between (a) and (b) is the noisy copies: same base, settings, number of
 steps and seed list. No setting was tuned. The settings are fixed in
-`experiments/train_bert.py`, and each run writes its record (settings, data checksums, every
+`experiments/train_bert.py`, the six models are public on Hugging Face
+(`blue2959/Llama-ai4privacy-piiguard-bert-{clean,noisy}-s{0,1,2}`), and each run writes its record (settings, data checksums, every
 logged loss, time, GPU, package versions) to `results/training/<model>.json`.
 
 ### 3.4 Runs
@@ -357,7 +358,8 @@ F2 per label on the clean test sets, comparison A (fine-tuned: mean of three see
   documents (question 1, contamination analysis S3); retrained on ai4privacy only, it loses that
   advantage.
 - **Emails and card numbers** fall out of domain for both versions, and the noisy copies halve
-  the fall (Nemotron-PII emails: 0.63 to 0.82).
+  the fall (Nemotron-PII emails: 0.63 to 0.82). No ai4privacy email has a dot before the `@`
+  (0 of 13,282), so both versions split addresses such as `first.last@domain` into pieces.
 - Without names and addresses (comparison B), both fine-tuned versions are *above* the original
   BERT on Gretel (0.507 and 0.524 against 0.459), which agrees with the above.
 

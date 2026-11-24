@@ -45,7 +45,7 @@ Version & Model folder & Training data \\
 
 Everything else is the same: the starting model, the settings, the number of steps and the seeds
 (0, 1, 2). The only difference is the noisy copies, so a difference between (a) and (b) comes
-from them. Six models in all. The models are not in git (about 110 MB each); each run's record is in git
+from them. Six models in all. The models are not in git (about 110 MB each) but are on Hugging Face (Section~7); each run's record is in git
 (\file{results/training/<model>.json}).
 
 \section{Starting model}
@@ -171,6 +171,36 @@ score: the versions are compared with strict span F2 on the test sets.
   score is the mean of its three seeds.
 \end{itemize}
 
+\section{Published models}
+
+The six models are public on Hugging Face, one repository each, with a model card, the training
+record and the licenses. Their weights are identical to the local ones (same SHA-256), and
+\file{BertDetector} gives the same outputs with either.
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Repository & Revision \\
+\midrule
+\file{blue2959/Llama-ai4privacy-piiguard-bert-clean-s0} & \file{f0756c53aa} \\
+\file{blue2959/Llama-ai4privacy-piiguard-bert-clean-s1} & \file{916e5c198c} \\
+\file{blue2959/Llama-ai4privacy-piiguard-bert-clean-s2} & \file{a96458f30e} \\
+\file{blue2959/Llama-ai4privacy-piiguard-bert-noisy-s0} & \file{2c267fdf7e} \\
+\file{blue2959/Llama-ai4privacy-piiguard-bert-noisy-s1} & \file{b0f1cdbb56} \\
+\file{blue2959/Llama-ai4privacy-piiguard-bert-noisy-s2} & \file{5a6434209d} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item \textbf{Use}: \file{run\_benchmark.py bert -{}-model blue2959/Llama-ai4privacy-piiguard-bert-noisy-s0},
+  or the transformers \file{pipeline("token-classification", ...)}. No account is needed.
+\item \textbf{Names and licenses.} The training data was generated with Llama, so its license asks
+  that a model trained on it be named starting with ``Llama'', show ``Built with Llama'', and ship
+  the Llama Community License (3.1 and 3.3 copies in each repository). The base model is Apache-2.0.
+\item \file{training\_args.bin} is not uploaded: it holds paths of the training computer.
+\end{itemize}
+
 \section{Reproducing}
 
 {\small
@@ -196,7 +226,9 @@ how much.
 
 \begin{itemize}
 \item One training domain (ai4privacy), with its own span conventions: both versions learn its
-  short addresses (building number and street), which costs them on Gretel.
+  short addresses (building number and street), which costs them on Gretel, and its emails, none
+  of which has a dot before the \file{@} (0 of 13,282), so both versions split addresses such as
+  \file{first.last@domain}.
 \item One set of settings, not tuned; three seeds per version.
 \item The tokenizer is uncased, so lowercase noise cannot be learned or tested on this model.
 \end{itemize}

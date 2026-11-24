@@ -177,7 +177,8 @@ suivants, ignoré (-100) pour `[CLS]` et `[SEP]`.
 
 La seule différence entre (a) et (b), ce sont les copies bruitées : même modèle de départ,
 mêmes réglages, même nombre de pas, mêmes graines. Aucun réglage n'a été optimisé. Les réglages
-sont fixés dans `experiments/train_bert.py`, et chaque entraînement écrit sa fiche (réglages,
+sont fixés dans `experiments/train_bert.py`, les six modèles sont publics sur Hugging Face
+(`blue2959/Llama-ai4privacy-piiguard-bert-{clean,noisy}-s{0,1,2}`), et chaque entraînement écrit sa fiche (réglages,
 sommes de contrôle des données, toutes les pertes journalisées, durée, GPU, versions des
 paquets) dans `results/training/<modèle>.json`.
 
@@ -375,7 +376,9 @@ graines) :
   documents PII finance de Gretel (question 1, analyse de contamination S3) ; ré-entraîné sur
   ai4privacy seul, il perd cet avantage.
 - **E-mails et numéros de carte** baissent hors domaine pour les deux versions, et les copies
-  bruitées divisent la baisse par deux (e-mails de Nemotron-PII : 0,63 à 0,82).
+  bruitées divisent la baisse par deux (e-mails de Nemotron-PII : 0,63 à 0,82). Aucun e-mail
+  d'ai4privacy n'a de point avant le `@` (0 sur 13 282) : les deux versions coupent en morceaux
+  les adresses comme `prenom.nom@domaine`.
 - Sans noms ni adresses (comparaison B), les deux versions affinées sont *au-dessus* du BERT
   d'origine sur Gretel (0,507 et 0,524 contre 0,459), ce qui concorde avec ce qui précède.
 

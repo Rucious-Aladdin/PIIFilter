@@ -435,8 +435,11 @@ clean version, the same plus one mixed-noise copy of each (seed 2, not the test 
 for the noisy version. Same settings and the same 10,832 steps for both (learning rate 5e-5,
 batch 32, three passes over the clean data); the last step is kept, the dev sets are only
 logged. Every date is learned as BERT's date class, which ai4privacy would otherwise teach
-it to forget. Three seeds of each version; the models are not in git, but the record of each run (settings,
-data checksums, losses, time, GPU, package versions) is in `results/training/`.
+it to forget. Three seeds of each version. The models are not in git but are public on Hugging Face, as
+`blue2959/Llama-ai4privacy-piiguard-bert-{clean,noisy}-s{0,1,2}` (for example
+`--model blue2959/Llama-ai4privacy-piiguard-bert-noisy-s0`; the name starts with "Llama" as the
+license of the ai4privacy data asks). The record of each run (settings, data checksums, losses,
+time, GPU, package versions) is in `results/training/`.
 
 Micro F2, mean over the three seeds (standard deviations at most 0.002 on ai4privacy and 0.025
 elsewhere), all six labels:
