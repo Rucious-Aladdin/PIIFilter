@@ -73,7 +73,7 @@ results/toy/<backend>/     toy experiment outputs (toy_results.json, toy_results
 docs/                      documents, by stage (index: docs/README.md)
   proposal/                the proposal
   presentation/            proposal slides, script, toy_experiment/ (Beamer frames + preview)
-  reports/                 q1/ (en, fr, ko), q2_q3/, results_tables/ (key tables, PDF)
+  reports/                 q1/ and q2_q3/ (each in en, fr, ko), results_tables/ (key tables, PDF)
   private/                 personal notes and translations (git-ignored)
 CLAUDE.md, .claude/        rules for Claude Code, and a hook that keeps the docs/ layout
 tests/                     unit tests (uv run pytest)
@@ -121,8 +121,8 @@ uv run pytest
 | Question | What it measures | Status |
 | --- | --- | --- |
 | Q1 | Presidio (rules only), BERT and GLiNER on clean text | done, see the [report](docs/reports/q1/q1_report_en.md) ([fr](docs/reports/q1/q1_report_fr.md), [ko](docs/reports/q1/q1_report_ko.md)) |
-| Q2 | the same detectors on noisy copies of the test sets | done, see the [report](docs/reports/q2_q3/q2_q3_report_en.md) and [Question 2](#question-2-noisy-text) |
-| Q3 | BERT: original, fine-tuned on clean text, fine-tuned on clean + noisy text | done, see the [report](docs/reports/q2_q3/q2_q3_report_en.md) and [Question 3](#question-3-fine-tuning-bert-on-noisy-text) |
+| Q2 | the same detectors on noisy copies of the test sets | done, see the [report](docs/reports/q2_q3/q2_q3_report_en.md) ([fr](docs/reports/q2_q3/q2_q3_report_fr.md), [ko](docs/reports/q2_q3/q2_q3_report_ko.md)) and [Question 2](#question-2-noisy-text) |
+| Q3 | BERT: original, fine-tuned on clean text, fine-tuned on clean + noisy text | done, see the same [report](docs/reports/q2_q3/q2_q3_report_en.md) and [Question 3](#question-3-fine-tuning-bert-on-noisy-text) |
 
 The key tables of all three questions, with intervals and tests, are in one three-page PDF:
 [docs/reports/results_tables/results_tables.pdf](docs/reports/results_tables/results_tables.pdf).

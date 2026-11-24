@@ -27,7 +27,9 @@ questions, the scripts and the results are in `README.md`; the documents are in 
 | `docs/private/` | personal notes, drafts and translations (git-ignored) |
 
 - Put a new document in the matching folder. A new report gets a new `docs/reports/<name>/`
-  folder (lowercase, words joined by `_`) and a line in `docs/README.md`.
+  folder (lowercase, words joined by `_`) and a line in `docs/README.md`. A team report comes in
+  English, French and Korean, side by side: `<name>_report_en.md`, `_fr.md`, `_ko.md`. When the
+  English version changes, update the other two.
 - Do not move, rename or delete existing documents or folders, and do not create other folders
   for documents (in `docs/` or at the repository root), unless the user asks for it.
 - A hook (`.claude/hooks/docs_layout.py`, run from `.claude/settings.json`) refuses files written
