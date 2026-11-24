@@ -1,0 +1,10 @@
+{
+  "id": "hotel_noisy",
+  "title": "Demo 12 (noisy)",
+  "prompt": "write a mesage to a hotel to confirm my booking for two nigths the guest is marco rosi the email is marco.rossi@example.com and the card on file is 6011111111111117",
+  "gold": [
+    {"label": "NAME", "value": "marco rosi"},
+    {"label": "EMAIL", "value": "marco.rossi@example.com"},
+    {"label": "CARD_NUMBER", "value": "6011111111111117"}
+  ]
+}

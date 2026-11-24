@@ -1,0 +1,10 @@
+{
+  "id": "delivery_noisy",
+  "title": "Demo 03 (noisy)",
+  "prompt": "draft a note to the delivry company pls send my parcel to 27 birch avnue instead of my old home im omar hadad and my email is omar.haddad@example.com",
+  "gold": [
+    {"label": "ADDRESS", "value": "27 birch avnue"},
+    {"label": "NAME", "value": "omar hadad"},
+    {"label": "EMAIL", "value": "omar.haddad@example.com"}
+  ]
+}

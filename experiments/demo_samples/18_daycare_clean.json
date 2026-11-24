@@ -1,0 +1,10 @@
+{
+  "id": "daycare_clean",
+  "title": "Demo 18 (clean)",
+  "prompt": "Write a registration note for the daycare. My daughter is Mia Lindqvist, she was born on 30 September 2022, and her father can be reached at 415-555-0137.",
+  "gold": [
+    {"label": "NAME", "value": "Mia Lindqvist"},
+    {"label": "DATE_OF_BIRTH", "value": "30 September 2022"},
+    {"label": "PHONE", "value": "415-555-0137"}
+  ]
+}

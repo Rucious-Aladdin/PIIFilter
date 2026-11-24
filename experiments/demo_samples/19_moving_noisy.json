@@ -1,0 +1,11 @@
+{
+  "id": "moving_noisy",
+  "title": "Demo 19 (noisy)",
+  "prompt": "write a short mesage telling my freinds that i moved im noah turnr my new home is 11 juniper wy my email is noah.turner@example.com and my phone is 202 555 0158",
+  "gold": [
+    {"label": "NAME", "value": "noah turnr"},
+    {"label": "ADDRESS", "value": "11 juniper wy"},
+    {"label": "EMAIL", "value": "noah.turner@example.com"},
+    {"label": "PHONE", "value": "202 555 0158"}
+  ]
+}

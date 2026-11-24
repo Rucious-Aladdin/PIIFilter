@@ -1,0 +1,10 @@
+{
+  "id": "insurance_clean",
+  "title": "Demo 06 (clean)",
+  "prompt": "Help me write a claim to my insurance after a water leak. I'm Henry Colby, born 09/23/1978, and the damage is at my home, 153 Cedar Road.",
+  "gold": [
+    {"label": "NAME", "value": "Henry Colby"},
+    {"label": "DATE_OF_BIRTH", "value": "09/23/1978"},
+    {"label": "ADDRESS", "value": "153 Cedar Road"}
+  ]
+}

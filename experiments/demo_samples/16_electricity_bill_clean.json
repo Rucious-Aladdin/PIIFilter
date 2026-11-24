@@ -1,0 +1,10 @@
+{
+  "id": "electricity_bill_clean",
+  "title": "Demo 16 (clean)",
+  "prompt": "Write an email to my electricity company about a wrong bill. I'm Ivan Petrov, the meter is at 305 Lake View Terrace, and you can reply to ivan.petrov@example.com.",
+  "gold": [
+    {"label": "NAME", "value": "Ivan Petrov"},
+    {"label": "ADDRESS", "value": "305 Lake View Terrace"},
+    {"label": "EMAIL", "value": "ivan.petrov@example.com"}
+  ]
+}

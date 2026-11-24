@@ -1,0 +1,11 @@
+{
+  "id": "clinic_form_noisy",
+  "title": "Demo 08 (noisy)",
+  "prompt": "turn this clinic form into a short paragraph patient victor alvarz date of birth 30 nov 1985 address 72 wilow court phone 4155550188",
+  "gold": [
+    {"label": "NAME", "value": "victor alvarz"},
+    {"label": "DATE_OF_BIRTH", "value": "30 nov 1985"},
+    {"label": "ADDRESS", "value": "72 wilow court"},
+    {"label": "PHONE", "value": "4155550188"}
+  ]
+}

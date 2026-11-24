@@ -15,3 +15,6 @@ slides/**/*.out
 slides/**/*.snm
 slides/**/*.toc
 slides/**/*.vrb
+
+# Datasets and the test sets drawn from them (not shared: see README, Benchmark datasets)
+data/

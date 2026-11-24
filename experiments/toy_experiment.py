@@ -34,11 +34,20 @@ def load_samples(samples_dir: Path) -> list[dict]:
 
 
 # Placeholder-like text left in the final answer: unknown <...> tags, or a placeholder
-# the LLM rewrote (NAME_1, Name 1, [PHONE_1]).
+# the LLM rewrote (NAME_1, Name 1, [PHONE_1]). DATE needs the underscore, because
+# "date 15 March" is ordinary text.
 LEFTOVER_RE = re.compile(
-    r"<[A-Za-z_]+(?:_\d+)?>|\b(?:NAME|EMAIL|PHONE|ADDRESS|DATE_OF_BIRTH|CARD_NUMBER)[_ ]?\d+\b",
+    r"<[A-Za-z_]+(?:_\d+)?>|\b(?:NAME|EMAIL|PHONE|ADDRESS|DATE_OF_BIRTH|CARD_NUMBER)[_ ]?\d+\b|\bDATE_\d+\b",
     re.IGNORECASE,
 )
+
+
+def leftover_placeholders(answer: str, mapping: dict[str, str]) -> list[str]:
+    """Placeholder-like text in the final answer, ignoring the restored values themselves
+    (otherwise "phone 010-2345-6789" would look like the placeholder "phone 010")."""
+    for value in mapping.values():
+        answer = answer.replace(value, "")
+    return LEFTOVER_RE.findall(answer)
 
 
 def gold_status(trace: FilterTrace, label: str, value: str) -> dict:
@@ -68,7 +77,7 @@ def check(trace: FilterTrace, gold: list[dict]) -> dict:
     gold_offsets = {(g["start"], g["end"]) for g in golds}
     extra = [trace.prompt[s.start : s.end] for s in trace.spans if (s.start, s.end) not in gold_offsets]
     missing = [p for p in trace.mapping if p not in trace.masked_answer]
-    leftover = LEFTOVER_RE.findall(trace.answer)
+    leftover = leftover_placeholders(trace.answer, trace.mapping)
     return {
         "gold": golds,
         "extra_detections": extra,
@@ -141,7 +150,7 @@ def main() -> None:
     parser.add_argument("--backend", choices=["local", "openai", "anthropic"], default="openai")
     parser.add_argument("--model", help="LLM model id (default depends on the backend)")
     parser.add_argument("--threshold", type=float, default=0.5, help="GLiNER confidence cut-off")
-    parser.add_argument("--device", default="cuda")
+    parser.add_argument("--device", help="cuda or cpu (default: cuda if a GPU is available, else cpu)")
     parser.add_argument("--samples", type=Path, default=SAMPLES_DIR, help="folder of scenario JSON files")
     parser.add_argument("--out", type=Path, default=Path("results/toy"))
     args = parser.parse_args()

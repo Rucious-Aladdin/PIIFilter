@@ -1,0 +1,10 @@
+{
+  "id": "school_absence_noisy",
+  "title": "Demo 05 (noisy)",
+  "prompt": "write a note to my sons teacher saying he was sick on monday his name is leo martin he was born on 2 june 2015 and im his mother claire dupon",
+  "gold": [
+    {"label": "NAME", "value": "leo martin"},
+    {"label": "DATE_OF_BIRTH", "value": "2 june 2015"},
+    {"label": "NAME", "value": "claire dupon"}
+  ]
+}

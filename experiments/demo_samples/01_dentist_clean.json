@@ -1,0 +1,10 @@
+{
+  "id": "dentist_clean",
+  "title": "Demo 01 (clean)",
+  "prompt": "Write a polite email to my dentist asking to move my appointment to next week. My name is Daniel Whitfield, I was born on 14 March 1991, and the office can reach me at 202-555-0143.",
+  "gold": [
+    {"label": "NAME", "value": "Daniel Whitfield"},
+    {"label": "DATE_OF_BIRTH", "value": "14 March 1991"},
+    {"label": "PHONE", "value": "202-555-0143"}
+  ]
+}

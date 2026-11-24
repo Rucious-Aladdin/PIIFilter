@@ -1,0 +1,10 @@
+{
+  "id": "library_noisy",
+  "title": "Demo 15 (noisy)",
+  "prompt": "write a request for a libary card my name is grace okafr i was born on 17 april 2001 and you can write to me at grace.okafor@example.com",
+  "gold": [
+    {"label": "NAME", "value": "grace okafr"},
+    {"label": "DATE_OF_BIRTH", "value": "17 april 2001"},
+    {"label": "EMAIL", "value": "grace.okafor@example.com"}
+  ]
+}

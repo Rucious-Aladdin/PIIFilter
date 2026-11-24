@@ -1,0 +1,10 @@
+{
+  "id": "refund_clean",
+  "title": "Demo 09 (clean)",
+  "prompt": "Write a complaint to an online shop asking for a refund. I'm Emma Novak, my email is emma.novak@example.com, and I paid with the card 3782 822463 10005.",
+  "gold": [
+    {"label": "NAME", "value": "Emma Novak"},
+    {"label": "EMAIL", "value": "emma.novak@example.com"},
+    {"label": "CARD_NUMBER", "value": "3782 822463 10005"}
+  ]
+}

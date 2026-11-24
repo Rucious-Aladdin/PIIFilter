@@ -1,0 +1,10 @@
+{
+  "id": "pharmacy_clean",
+  "title": "Demo 20 (clean)",
+  "prompt": "Write a message to my pharmacy to renew a prescription. The patient is Aisha Khan, born on 8 December 1969, and the pharmacist can call 415-555-0102.",
+  "gold": [
+    {"label": "NAME", "value": "Aisha Khan"},
+    {"label": "DATE_OF_BIRTH", "value": "8 December 1969"},
+    {"label": "PHONE", "value": "415-555-0102"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "refund_noisy",
+  "title": "Demo 09 (noisy)",
+  "prompt": "write a complant to an online shop asking for a refund im emma novack my email is emma.novak@example.com and i paid with the card 378282246310005",
+  "gold": [
+    {"label": "NAME", "value": "emma novack"},
+    {"label": "EMAIL", "value": "emma.novak@example.com"},
+    {"label": "CARD_NUMBER", "value": "378282246310005"}
+  ]
+}

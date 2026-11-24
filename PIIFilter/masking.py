@@ -8,7 +8,8 @@ values back by simple replacement.
 import re
 from dataclasses import dataclass
 
-LABELS = ("NAME", "EMAIL", "PHONE", "ADDRESS", "DATE_OF_BIRTH", "CARD_NUMBER")
+# DATE is used in comparison C of the benchmark, in place of DATE_OF_BIRTH.
+LABELS = ("NAME", "EMAIL", "PHONE", "ADDRESS", "DATE_OF_BIRTH", "DATE", "CARD_NUMBER")
 
 PLACEHOLDER_RE = re.compile(r"<(?:%s)_\d+>" % "|".join(LABELS))
 

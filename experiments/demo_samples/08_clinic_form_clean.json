@@ -1,0 +1,11 @@
+{
+  "id": "clinic_form_clean",
+  "title": "Demo 08 (clean)",
+  "prompt": "Turn this clinic form into a short paragraph. Patient: Victor Alvarez. Date of birth: 1985-11-30. Address: 72 Willow Court. Phone: 415-555-0188.",
+  "gold": [
+    {"label": "NAME", "value": "Victor Alvarez"},
+    {"label": "DATE_OF_BIRTH", "value": "1985-11-30"},
+    {"label": "ADDRESS", "value": "72 Willow Court"},
+    {"label": "PHONE", "value": "415-555-0188"}
+  ]
+}

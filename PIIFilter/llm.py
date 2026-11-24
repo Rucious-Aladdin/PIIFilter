@@ -5,6 +5,8 @@ openai:    OpenAI Responses API (needs OPENAI_API_KEY)
 anthropic: Claude Messages API (needs ANTHROPIC_API_KEY or an `ant auth login` profile)
 """
 
+from .device import pick_device
+
 SYSTEM_PROMPT = (
     "Some personal details in the user's message have been replaced with placeholders "
     "such as <NAME_1> or <PHONE_1>. Treat each placeholder as the real value: wherever "
@@ -16,14 +18,14 @@ SYSTEM_PROMPT = (
 class LocalLLM:
     default_model = "Qwen/Qwen2.5-7B-Instruct"
 
-    def __init__(self, model: str | None = None, device: str = "cuda", max_new_tokens: int = 512):
+    def __init__(self, model: str | None = None, device: str | None = None, max_new_tokens: int = 512):
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         self.model_id = model or self.default_model
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_id)
         self.model = AutoModelForCausalLM.from_pretrained(
-            self.model_id, dtype=torch.bfloat16, device_map=device
+            self.model_id, dtype=torch.bfloat16, device_map=pick_device(device)
         )
         self.max_new_tokens = max_new_tokens
 

@@ -1,0 +1,10 @@
+{
+  "id": "subscription_noisy",
+  "title": "Demo 17 (noisy)",
+  "prompt": "help me write a mesage to update the payment on my subscripton im julia reinhlt the new card is 4012888888881881 and my phone is 2025550182",
+  "gold": [
+    {"label": "NAME", "value": "julia reinhlt"},
+    {"label": "CARD_NUMBER", "value": "4012888888881881"},
+    {"label": "PHONE", "value": "2025550182"}
+  ]
+}

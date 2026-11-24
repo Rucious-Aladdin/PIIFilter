@@ -1,0 +1,11 @@
+{
+  "id": "moving_clean",
+  "title": "Demo 19 (clean)",
+  "prompt": "Write a short message telling my friends that I moved. I'm Noah Turner, my new home is 11 Juniper Way, my email is noah.turner@example.com, and my phone is 202-555-0158.",
+  "gold": [
+    {"label": "NAME", "value": "Noah Turner"},
+    {"label": "ADDRESS", "value": "11 Juniper Way"},
+    {"label": "EMAIL", "value": "noah.turner@example.com"},
+    {"label": "PHONE", "value": "202-555-0158"}
+  ]
+}

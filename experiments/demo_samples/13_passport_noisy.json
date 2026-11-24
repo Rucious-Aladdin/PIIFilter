@@ -1,0 +1,10 @@
+{
+  "id": "passport_noisy",
+  "title": "Demo 13 (noisy)",
+  "prompt": "write a leter asking for a new pasport appointment im hannah schmit born on 21 aug 1988 and i live at 240 pine hil drive",
+  "gold": [
+    {"label": "NAME", "value": "hannah schmit"},
+    {"label": "DATE_OF_BIRTH", "value": "21 aug 1988"},
+    {"label": "ADDRESS", "value": "240 pine hil drive"}
+  ]
+}
